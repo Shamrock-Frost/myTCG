@@ -1,9 +1,8 @@
-package com.rhs.murphyTCG
+package com.rhs.murphyTCG.GUI
 
-import com.rhs.murphyTCG.Styles.Companion.wrapper
-import com.rhs.murphyTCG.Styles.Companion.password
-import com.rhs.murphyTCG.Styles.Companion.username
-import com.rhs.murphyTCG.Styles.Companion.row
+import com.rhs.murphyTCG.GUI.Styles.Companion.SCREEN_HEIGHT
+import com.rhs.murphyTCG.GUI.Styles.Companion.wrapper
+import com.rhs.murphyTCG.GUI.Styles.Companion.row
 import javafx.scene.layout.VBox
 import tornadofx.*
 
@@ -18,13 +17,13 @@ class BattleScreen : View() {
             children.addClass(row)
 
             hbox {
-                addClass(username)
-                label("Username")
+                //layoutY = 0.0
+                label("Username").layoutY = 200.0
                 textfield()
             }
 
             hbox {
-                addClass(password)
+                layoutY = SCREEN_HEIGHT
                 label("Password")
                 textfield()
             }
