@@ -6,7 +6,7 @@ import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
 
-class AppMain : App(){
+class AppMain : App() {
     override val primaryView = BattleScreen::class
 
     override fun start(stage: Stage) {
