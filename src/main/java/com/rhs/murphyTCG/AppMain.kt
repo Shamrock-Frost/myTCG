@@ -5,7 +5,6 @@ import com.rhs.murphyTCG.GUI.Styles
 import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
-import tornadofx.reloadStylesheetsOnFocus
 
 class AppMain : App(){
     override val primaryView = BattleScreen::class
