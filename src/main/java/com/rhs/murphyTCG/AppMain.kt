@@ -1,19 +1,22 @@
 package com.rhs.murphyTCG
 
-import com.rhs.murphyTCG.GUI.MainMenu
+import com.rhs.murphyTCG.GUI.getLoginScreen
+import com.rhs.murphyTCG.GUI.getMainMenu
+import javafx.application.Application
+import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.stage.Stage
-import tornadofx.App
-import tornadofx.find
-import tornadofx.importStylesheet
 
-class AppMain : App() {
-    override val primaryView = MainMenu::class
-    lateinit var stage: Stage
+class AppMain : Application() {
+    lateinit var window: Stage
+    var LoginScreen: Scene = getLoginScreen(EventHandler { window.scene = MainMenu })
+    var MainMenu: Scene = getMainMenu()
 
-    override fun start(defaultStage: Stage) {
-        importStylesheet(Styles::class)
-        super.start(stage)
-        stage = defaultStage
+    override fun start(primaryStage: Stage) {
+        window = primaryStage
+        window.title = "Fill this eventually"
+
+        window.scene = LoginScreen
+        window.show()
     }
 }
