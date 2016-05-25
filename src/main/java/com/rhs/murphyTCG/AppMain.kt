@@ -22,25 +22,17 @@ class AppMain : Application() {
      * Initializes the root layout.
      */
     private fun initRootLayout() {
-        try {
-            val fxml = FXMLLoader(this.javaClass.getResource("/Login.fxml"))
-            val root = fxml.load<Parent>()
+        val loginLoader = FXMLLoader(this.javaClass.getResource("/Login.fxml"))
+        val root = loginLoader.load<Parent>()
 
-            val controller = fxml.getController<LoginController>()
-            controller.main = this
+        val controller = loginLoader.getController<LoginController>()
+        controller.main = this
 
-            window.scene = Scene(root)
-            window.show()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
+        window.scene = Scene(root)
+        window.show()
     }
 
     companion object {
-
-        @JvmStatic fun main(args: Array<String>) {
-            Application.launch(AppMain::class.java)
-        }
+        @JvmStatic fun main(args: Array<String>) = Application.launch(AppMain::class.java)
     }
 }

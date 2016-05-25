@@ -1,4 +1,4 @@
-package com.rhs.murphyTCG.GUI
+package com.rhs.murphyTCG
 
 import javafx.stage.Screen
 
