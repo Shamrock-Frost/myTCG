@@ -9,19 +9,17 @@ import javafx.stage.Stage
 import java.io.IOException
 
 class AppMain : Application() {
+    //The Stage needs public access
     lateinit internal var window: Stage
 
     override fun start(primaryStage: Stage) {
         window = primaryStage
         window.title = "Fill this eventually"
 
-        this.initRootLayout()
+        loadInitScene()
     }
 
-    /**
-     * Initializes the root layout.
-     */
-    private fun initRootLayout() {
+    private fun loadInitScene() {
         val loginLoader = FXMLLoader(this.javaClass.getResource("/Login.fxml"))
         val root = loginLoader.load<Parent>()
 
@@ -30,6 +28,11 @@ class AppMain : Application() {
 
         window.scene = Scene(root)
         window.show()
+    }
+
+    internal fun close() {
+        //Cleanup code
+        window.close()
     }
 
     companion object {

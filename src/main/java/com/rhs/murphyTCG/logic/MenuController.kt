@@ -11,7 +11,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 
 class MenuController() {
-    var main: AppMain? = null
+    lateinit var main: AppMain
 
     @FXML private lateinit var BattleButton: Button
     @FXML
@@ -27,7 +27,5 @@ class MenuController() {
 
     @FXML private lateinit var QuitButton: Button
     @FXML
-    fun Quit(event: ActionEvent) {
-        main!!.window.close()
-    }
+    fun Quit(event: ActionEvent) = main!!.close()
 }

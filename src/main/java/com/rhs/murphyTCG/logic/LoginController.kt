@@ -11,7 +11,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 
 class LoginController() {
-    var main: AppMain? = null
+    lateinit var main: AppMain
 
     @FXML private lateinit var LoginButton: Button
 

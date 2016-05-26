@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="253.0" prefWidth="313.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.LoginController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="253.0" prefWidth="313.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.LoginController">
     <children>
         <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="10.0">
             <children>
@@ -18,7 +18,7 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <TextField />
+                <TextField onAction="#Login" />
             </children>
             <VBox.margin>
                 <Insets />
@@ -31,13 +31,13 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <PasswordField />
+                <PasswordField onAction="#Login" />
             </children>
             <VBox.margin>
                 <Insets />
             </VBox.margin>
         </HBox>
-        <Button fx:id="LoginButton" alignment="CENTER" mnemonicParsing="false" onAction="#Login" prefHeight="58.0" prefWidth="121.0" text="Log In" textAlignment="JUSTIFY">
+        <Button fx:id="LoginButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#Login" prefHeight="58.0" prefWidth="121.0" stylesheets="@General.css" text="Log In" textAlignment="JUSTIFY">
             <VBox.margin>
                 <Insets left="67.0" top="20.0" />
             </VBox.margin>

@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="350.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.MenuController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="350.0" spacing="20.0" stylesheets="@General.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.MenuController">
    <children>
       <Button fx:id="BattleButton" alignment="CENTER" mnemonicParsing="false" onAction="#Battle" prefHeight="50.0" prefWidth="200.0" text="BATTLE!" textAlignment="CENTER" textOverrun="CLIP">
          <font>
