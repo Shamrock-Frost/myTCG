@@ -11,13 +11,11 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 
 class LoginController() {
+    //Have to store it like this so to change scene
     lateinit var main: AppMain
 
     @FXML private lateinit var LoginButton: Button
-
-    // Event Listener on Button[#loginbutton].onAction
-    @FXML
-    fun Login(event: ActionEvent) {
+    @FXML fun Login(event: ActionEvent) {
         val loginLoader = FXMLLoader(this.javaClass.getResource("/MainMenu.fxml"))
         val root = loginLoader.load<Parent>()
 

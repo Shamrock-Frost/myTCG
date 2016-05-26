@@ -1,5 +1,6 @@
 package com.rhs.murphyTCG.logic
 
+//All cards' inherit Card eventually
 interface Card {
     val cardName: String
     val cost: Int
@@ -17,6 +18,7 @@ interface Card {
     fun endPhase() {}
 }
 
+//Monsters can be instantiated in one line for vanillas
 abstract class Monster(override val cardName: String,
                        override val cost: Int,
                        override val tribe: Tribe,
@@ -30,6 +32,7 @@ abstract class Monster(override val cardName: String,
     open fun onDamaged(damagedBy: Card) {}
 }
 
+//These are just for typing/Structure, not inheritance
 interface Castable: Card
 abstract class Spell(override val cardName: String,
                      override val cost: Int,

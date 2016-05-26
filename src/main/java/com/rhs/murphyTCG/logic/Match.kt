@@ -4,7 +4,6 @@ import java.util.Stack
 import java.util.ArrayList
 import java.util.Collections
 
-
 //Player is the player in the game with hand and deck etc...
 //Profile is what Users are called, which have deck recipes/login info
 class Match(deck1: Stack<Card>, deck2: Stack<Card>) {
@@ -13,12 +12,7 @@ class Match(deck1: Stack<Card>, deck2: Stack<Card>) {
     private var currentPlayer = player1
 
     companion object {
-        val MAX_HAND_SIZE = 10
-        val STARTING_HAND = 5
-        val NUM_MONS = 5
-        val NUM_CAST = 5
-        val STARTING_HEALTH = 100
-
+        //Should only be accessed from Match
         private class Player(val deck: Stack<Card>) {
             val hand = ArrayList<Card>(MAX_HAND_SIZE)
             val frontRow = arrayOfNulls<Monster?>(NUM_MONS)
@@ -27,16 +21,17 @@ class Match(deck1: Stack<Card>, deck2: Stack<Card>) {
             var health = STARTING_HEALTH
 
             init {
-                shuffle()
-                draw(STARTING_HAND)
+                deck.shuffle()
+                draw(STARTING_HAND, false)
             }
 
-            fun shuffle() = Collections.shuffle(deck)
-
-            fun draw(n: Int) = {
-                val tempList = (1..n).map { deck.pop() }
-                tempList.forEach { it?.onDraw(true) }
-                hand.addAll(tempList)
+            //Doesn't map because state can change on drawing
+            fun draw(n: Int, drawnNormally: Boolean) {
+                for(i in 1..n) {
+                    val card = deck.pop()
+                    card.onDraw(drawnNormally)
+                    hand += card
+                }
             }
 
             //Moves a card from a player's hand to their board
@@ -50,12 +45,22 @@ class Match(deck1: Stack<Card>, deck2: Stack<Card>) {
                             if(hidden) toPlay else hiddenCastable(toPlay)
                 }
             }
+
+            companion object {
+                //Private to Player
+                private val MAX_HAND_SIZE = 10
+                private val STARTING_HAND = 5
+                private val NUM_MONS = 5
+                private val NUM_CAST = 5
+                private val STARTING_HEALTH = 100
+                private fun Stack<Card>.shuffle() = Collections.shuffle(this)
+            }
         }
     }
 
     //Methods called when phases are entered
     fun drawPhase() {
-        currentPlayer.draw(1)
+        currentPlayer.draw(1, true)
         currentPlayer.frontRow.forEach { it?.drawPhase() }
         currentPlayer.backRow.forEach { it?.drawPhase() }
     }

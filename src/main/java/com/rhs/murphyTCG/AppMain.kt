@@ -6,20 +6,19 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
-import java.io.IOException
 
 class AppMain : Application() {
-    //The Stage needs public access
+    //The Stage needs public/internal access so it can be changed
     lateinit internal var window: Stage
 
     override fun start(primaryStage: Stage) {
         window = primaryStage
-        window.title = "Fill this eventually"
+        window.title = "Malfeasance"
 
-        loadInitScene()
+        loadLoginScene()
     }
 
-    private fun loadInitScene() {
+    private fun loadLoginScene() {
         val loginLoader = FXMLLoader(this.javaClass.getResource("/Login.fxml"))
         val root = loginLoader.load<Parent>()
 
