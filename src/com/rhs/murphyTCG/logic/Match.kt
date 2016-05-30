@@ -1,5 +1,6 @@
 package com.rhs.murphyTCG.logic
 
+import com.rhs.murphyTCG.InvalidCardTypeException
 import com.rhs.murphyTCG.firstOpen
 import java.util.Stack
 import java.util.ArrayList
@@ -35,18 +36,18 @@ internal class Match(deck1: Stack<Card>, deck2: Stack<Card>) {
             }
 
             //Moves a card from a player's hand to their board
-            fun play(index: Int, hidden: Boolean) {
-                val toPlay = hand.removeAt(index)
-                when(toPlay) {
+            fun play(card: Card, hidden: Boolean) {
+                hand.remove(card)
+                when(card) {
                     is Monster -> {
                         monsters[monsters.firstOpen()] =
-                                if(hidden) toPlay else hiddenMonster(toPlay)
+                                if(hidden) card else HiddenMonster(card)
                     }
                     is Castable -> {
                         castables[castables.firstOpen()] =
-                                if(hidden) toPlay else hiddenCastable(toPlay)
+                                if(hidden) card else HiddenCastable(card)
                     }
-                    else -> throw IllegalStateException("Card was neither Monster nor Castable")
+                    else -> throw InvalidCardTypeException()
                 }
             }
 

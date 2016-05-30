@@ -1,5 +1,7 @@
 package com.rhs.murphyTCG.logic
 
+import com.rhs.murphyTCG.InvalidCardTypeException
+
 //All cards' inherit Card eventually
 abstract class Card(val cardName: String,
                     val cost: Int,
@@ -14,12 +16,6 @@ abstract class Card(val cardName: String,
     open fun standbyPhase() {}
     open fun battlePhase() {}
     open fun endPhase() {}
-
-    final fun hidden(): Hidden = when(this) {
-        is Monster -> hiddenMonster(this)
-        is Castable -> hiddenCastable(this)
-        else -> throw IllegalStateException("Card was neither Monster nor Castable")
-    }
 }
 
 //Monsters can be instantiated in one line for vanillas
@@ -47,10 +43,10 @@ enum class Tribe() {
 
 interface Hidden
 
-class hiddenMonster(val hiding: Monster): Monster("blank", 0, Tribe.HUMAN, 0, 0), Hidden {
+class HiddenMonster(val hiding: Monster): Monster("blank", 0, Tribe.HUMAN, 0, 0), Hidden {
     override fun onAttacked(target: Card) = throw IllegalStateException() /*Will turn up*/
 }
 
-class hiddenCastable(val hiding: Castable): Castable("blank", 0, Tribe.HUMAN), Hidden {
+class HiddenCastable(val hiding: Castable): Castable("blank", 0, Tribe.HUMAN), Hidden {
     //?????
 }

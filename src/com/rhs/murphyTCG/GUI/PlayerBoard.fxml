@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox fx:id="phases" alignment="CENTER" prefHeight="68.0" prefWidth="600.0" spacing="60.0" BorderPane.alignment="CENTER">
          <children>
@@ -55,15 +54,20 @@
    <left>
       <VBox fx:id="player" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </left>
-   <center>
-      <HBox fx:id="board" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="hand" prefHeight="100.0" prefWidth="533.0" />
+            <HBox fx:id="hand" prefHeight="72.0" prefWidth="512.0" />
             <StackPane fx:id="deck" prefHeight="100.0" prefWidth="109.0" />
          </children>
       </HBox>
    </bottom>
+   <center>
+      <VBox fx:id="board" prefHeight="200.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="monsters" prefHeight="113.0" prefWidth="200.0" />
+            <HBox fx:id="castables" prefHeight="113.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
