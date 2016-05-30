@@ -19,7 +19,7 @@ class AppMain : Application() {
     }
 
     private fun loadLoginScene() {
-        val loginLoader = FXMLLoader(this.javaClass.getResource("/Login.fxml"))
+        val loginLoader = FXMLLoader(this.javaClass.getResource("GUI/scenes/Login.fxml"))
         val root = loginLoader.load<Parent>()
 
         val controller = loginLoader.getController<LoginController>()

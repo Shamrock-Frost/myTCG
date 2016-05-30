@@ -37,7 +37,7 @@
                 <Insets />
             </VBox.margin>
         </HBox>
-        <Button fx:id="LoginButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#Login" prefHeight="58.0" prefWidth="121.0" stylesheets="@General.css" text="Log In" textAlignment="JUSTIFY">
+        <Button fx:id="LoginButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#Login" prefHeight="58.0" prefWidth="121.0" stylesheets="@../General.css" text="Log In" textAlignment="JUSTIFY">
             <VBox.margin>
                 <Insets left="67.0" top="20.0" />
             </VBox.margin>

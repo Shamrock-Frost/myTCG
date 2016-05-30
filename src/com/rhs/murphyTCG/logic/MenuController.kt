@@ -18,7 +18,7 @@ class MenuController() {
 
     @FXML private lateinit var DecksButton: Button
     @FXML fun Decks(event: ActionEvent) {
-        println("most guys have decks.")
+        println("I love ${Tribe.HUMAN}s")
     }
 
     @FXML private lateinit var QuitButton: Button
