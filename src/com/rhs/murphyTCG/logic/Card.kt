@@ -1,35 +1,37 @@
 package com.rhs.murphyTCG.logic
 
-import com.rhs.murphyTCG.InvalidCardTypeException
+import com.rhs.murphyTCG.logic.Match.Companion.Player
 
 //All cards' inherit Card eventually
 abstract class Card(val cardName: String,
                     val cost: Int,
                     val tribe: Tribe) {
     //Called on the card when the event triggers, but does nothing by default
-    open fun toGrave() {}
-    open fun onCast() {}
-    open fun onDestroyed() {}
-    open fun onDraw(drawnNormally: Boolean) {}
-    open fun targeted(targetedBy: Card) {}
-    open fun drawPhase() {}
-    open fun standbyPhase() {}
-    open fun battlePhase() {}
-    open fun endPhase() {}
+    internal open fun toGrave() {}
+    internal open fun onCast() {}
+    internal open fun onDestroyed() {}
+    internal open fun onDraw(drawnNormally: Boolean) {}
+    internal open fun targeted(targetedBy: Card) {}
+    internal open fun drawPhase() {}
+    internal open fun standbyPhase() {}
+    internal open fun battlePhase() {}
+    internal open fun endPhase() {}
 }
 
 //Monsters can be instantiated in one line for vanillas
 abstract class Monster(cardName: String,
                        cost: Int,
                        tribe: Tribe,
-                       val attack: Int,
-                       val health: Int
+                       var attack: Int,
+                       var health: Int
 ): Card(cardName, cost, tribe) {
-    open fun onSummon() {}
-    open fun onAttack(target: Card) {}
-    open fun onAttacked(target: Card) {}
-    open fun onDamageChar(damaged: Card) {}
-    open fun onDamaged(damagedBy: Card) {}
+    internal open fun onSummon() {}
+    internal open fun onAttack(target: Monster) {}
+    internal open fun onAttack(target: Player) {}
+    internal open fun onAttacked(by: Monster) {}
+    internal open fun onDamageChar(damaged: Monster) {}
+    internal open fun onDamageChar(damaged: Player) {}
+    internal open fun onDamaged(damagedBy: Card) {}
 }
 
 //These are just for typing/Structure, not inheritance
@@ -44,7 +46,7 @@ enum class Tribe() {
 interface Hidden
 
 class HiddenMonster(val hiding: Monster): Monster("blank", 0, Tribe.HUMAN, 0, 0), Hidden {
-    override fun onAttacked(target: Card) = throw IllegalStateException() /*Will turn up*/
+    override fun onAttacked(by: Monster) = throw IllegalStateException() /*Will turn up*/
 }
 
 class HiddenCastable(val hiding: Castable): Castable("blank", 0, Tribe.HUMAN), Hidden {

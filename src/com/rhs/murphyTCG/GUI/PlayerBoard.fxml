@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -52,7 +53,15 @@
       <StackPane fx:id="grave" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="217.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </right>
    <left>
-      <VBox fx:id="player" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="player" alignment="TOP_CENTER" maxHeight="227.0" maxWidth="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="PlayerName">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="201.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+         </children></VBox>
    </left>
    <bottom>
       <HBox prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -65,8 +74,23 @@
    <center>
       <VBox fx:id="board" prefHeight="200.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="monsters" prefHeight="113.0" prefWidth="200.0" />
-            <HBox fx:id="castables" prefHeight="113.0" prefWidth="200.0" />
+            <HBox fx:id="monsters" prefHeight="113.0" prefWidth="200.0">
+               <children>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+               </children></HBox>
+            <HBox fx:id="castables" prefHeight="113.0" prefWidth="200.0">
+               <children>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>

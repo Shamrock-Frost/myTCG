@@ -85,6 +85,25 @@ internal class Match(deck1: Stack<Card>, deck2: Stack<Card>) {
         currentPlayer = if(currentPlayer !== player1) player1 else player2
     }
 
+    fun combat(attacker: Monster, defender: Monster) : List<Monster> {
+        attacker.onAttack(defender)
+        defender.onAttacked(attacker)
+        attacker.health -= defender.attack
+        defender.health -= attacker.attack
+        attacker.onDamageChar(defender)
+        defender.onDamaged(attacker)
+        val dead = listOf(attacker, defender).filter { it.health <= 0 }
+        dead.forEach { kill(it) }
+        return dead
+    }
+
+    fun kill(monster: Monster) {
+        val owner = if(monster in player1.monsters) player1 else player2
+        owner.monsters[owner.monsters.indexOf(monster)] = null
+        monster.onDestroyed()
+        owner.grave += monster
+    }
+
     //Will returns winner
     fun endMatch(): Unit = throw IllegalStateException() /*To be implemented*/
 }

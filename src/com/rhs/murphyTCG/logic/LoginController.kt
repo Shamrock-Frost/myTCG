@@ -22,6 +22,6 @@ class LoginController() {
         val controller = loginLoader.getController<MenuController>()
         controller.main = this.main
 
-        main!!.window.scene = Scene(root)
+        main.window.scene = Scene(root)
     }
 }

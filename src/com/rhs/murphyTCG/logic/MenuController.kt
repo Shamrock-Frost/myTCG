@@ -22,5 +22,5 @@ class MenuController() {
     }
 
     @FXML private lateinit var QuitButton: Button
-    @FXML fun Quit(event: ActionEvent) = main!!.close()
+    @FXML fun Quit(event: ActionEvent) = main.close()
 }

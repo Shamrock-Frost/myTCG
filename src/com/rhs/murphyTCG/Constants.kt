@@ -13,5 +13,4 @@ internal val WIDTH = BOUNDS.width
 internal operator fun Parent.plus(node: Node) = Group(this.childrenUnmodifiable + node)
 internal fun Array<out Card?>.firstOpen() = this.indexOfFirst { it == null }
 internal operator fun Parent.get(i: Int) = childrenUnmodifiable[i]
-internal operator fun Unit.plus(u: Unit) = 5
 internal class InvalidCardTypeException : IllegalStateException("The card was neither Monster nor Castable")
