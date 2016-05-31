@@ -29,10 +29,13 @@ internal class MatchNode(val representing: Match) {
         }) //TODO: Add logic for turning up on draw
         return to
     }
+
+
 }
 
 internal class HiddenCardNode(val hiding: CardNode) : Rectangle(80.0, 131.0)
 
+//Contains a bunch of
 internal class CardNode(val representing: Card, val inside: MatchNode) : StackPane(Rectangle(80.0, 131.0)) {
     val inHand = EventHandler<MouseEvent> {
         val slots: HBox = (inside.player1.center as VBox)[if(representing is Monster) 0 else 1] as HBox
@@ -59,18 +62,19 @@ internal class CardNode(val representing: Card, val inside: MatchNode) : StackPa
                 this.onMouseClicked = null
             }}
     }
+
     //TODO: Set this in battlephase init
     val monsterCombatPhase = EventHandler<MouseEvent> {
         //This should only be called on monsters, throw a runtime error and avoid later checks
-        val monster = representing as Monster
-        //If they have no monsters
+        if(representing !is Monster) throw IllegalStateException("Non-monster tried to attack")
+        //If they have no representings
         if(inside.representing.player2.monsters.all { it == null }) {
             val opponentBox = (inside.player2.left as VBox)[1]
             opponentBox.onMouseClicked = EventHandler {
                 //Call my onAttack
-                monster.onAttack(inside.representing.player2)
+                representing.onAttack(inside.representing.player2)
                 //Reduce their health and if they're dead end the match
-                inside.representing.player2.health -= monster.attack
+                inside.representing.player2.health -= representing.attack
                 if(inside.representing.player2.health <= 0) inside.representing.endMatch()
                 //remove this command
                 opponentBox.onMouseClicked = null
@@ -80,7 +84,7 @@ internal class CardNode(val representing: Card, val inside: MatchNode) : StackPa
             .children
             .filter { box -> (box as StackPane).children.size == 0 }
             .forEach { box -> box.onMouseClicked = EventHandler {
-                //Do combat between the two and save the dead monsters
+                //Do combat between the two and save the dead representings
                 val dead = inside.representing.combat(representing, ((box as StackPane)[0] as CardNode).representing as Monster)
                 val attacking = (box[0] as CardNode)
                 //Remove the dead from the board and put them in the grave
@@ -93,9 +97,5 @@ internal class CardNode(val representing: Card, val inside: MatchNode) : StackPa
                     (inside.player2.right as StackPane).children += attacking
                 }
             }}
-    }
-
-    init {
-        onMouseClicked = inHand
     }
 }
