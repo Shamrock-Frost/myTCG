@@ -7,6 +7,7 @@ import javafx.scene.Parent
 import javafx.stage.Screen
 import java.net.InetAddress
 import java.net.MulticastSocket
+import java.net.ServerSocket
 
 //Constants
 internal val BOUNDS = Screen.getPrimary().visualBounds
@@ -22,9 +23,8 @@ internal class InvalidCardTypeException : IllegalStateException("The card was ne
 
 //Networking
 val LOCAL_HOST = InetAddress.getLocalHost()
-val PORT: Int = 9090
-val allChanells = {
-    val temp = MulticastSocket(PORT + 1)
-    temp.joinGroup(LOCAL_HOST)
-    temp;
-}()
+val PORT: Int = ServerSocket(0).localPort
+
+//Global state is bad and I'm a bad programmer
+//Nullable global state makes me feel dead inside
+var isServer: Boolean? = null

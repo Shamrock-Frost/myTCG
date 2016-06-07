@@ -16,11 +16,11 @@ class LoginController() {
 
     @FXML private lateinit var LoginButton: Button
     @FXML fun Login(event: ActionEvent) {
-        val loginLoader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/MainMenu.fxml"))
-        val root = loginLoader.load<Parent>()
+        val loader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/MainMenu.fxml"))
+        val root = loader.load<Parent>()
 
-        val controller = loginLoader.getController<MenuController>()
-        controller.main = this.main
+        val controller = loader.getController<MenuController>()
+        controller.main = main
 
         main.window.scene = Scene(root)
     }

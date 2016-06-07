@@ -1,6 +1,9 @@
 package com.rhs.murphyTCG
 
 import com.rhs.murphyTCG.logic.LoginController
+import com.rhs.murphyTCG.logic.MenuController
+import com.rhs.murphyTCG.network.Client
+import com.rhs.murphyTCG.network.Server
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -30,7 +33,8 @@ class AppMain : Application() {
     }
 
     internal fun close() {25
-
+        if(isServer!!) Server.server.close()
+        else Client.client.close()
         //Cleanup code
         window.close()
     }

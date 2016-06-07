@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
 
 class MenuController() {
     //Have to store it like this so to change scene
@@ -13,7 +16,13 @@ class MenuController() {
 
     @FXML private lateinit var BattleButton: Button
     @FXML fun Battle(event: ActionEvent) {
-        println("do you want to go, punk?")
+        val loader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/FindBattle.fxml"))
+        val root = loader.load<Parent>()
+
+        val controller = loader.getController<FindBattleController>()
+        controller.main = main
+
+        main.window.scene = Scene(root)
     }
 
     @FXML private lateinit var DecksButton: Button

@@ -1,16 +1,28 @@
 package com.rhs.murphyTCG.network
 
+import com.esotericsoftware.kryonet.Connection
+import com.esotericsoftware.kryonet.Listener
+import com.esotericsoftware.kryonet.Server
 import com.rhs.murphyTCG.PORT
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.PrintWriter
-import java.net.InetAddress
-import java.net.MulticastSocket
-import java.net.ServerSocket
+import com.rhs.murphyTCG.isServer
 
 //To Future Me: Objects are created lazily, don't worry
 object Server {
-    val socket = ServerSocket(PORT).use { listener -> listener.accept() }
-    val input = BufferedReader(InputStreamReader(socket.inputStream))
-    val output = PrintWriter(socket.outputStream, true)
+    val server = Server()
+
+    init {
+        isServer = true
+
+        server.kryo.register(Packet::class.java)
+
+        server.bind(PORT)
+        server.start()
+
+        server.addListener(object : Listener() {
+            override fun received(connection: Connection?, received: Any?) {
+                val packet = received as Packet
+
+            }
+        })
+    }
 }
