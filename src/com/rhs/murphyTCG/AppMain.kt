@@ -29,7 +29,8 @@ class AppMain : Application() {
         window.show()
     }
 
-    internal fun close() {
+    internal fun close() {25
+
         //Cleanup code
         window.close()
     }

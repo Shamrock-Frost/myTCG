@@ -39,7 +39,7 @@ abstract class Castable(cardName: String, cost: Int, tribe: Tribe): Card(cardNam
 abstract class React(cardName: String, cost: Int, tribe: Tribe): Castable(cardName, cost, tribe)
 abstract class Spell(cardName: String, cost: Int, tribe: Tribe): Castable(cardName, cost, tribe)
 
-enum class Tribe() {
+enum class Tribe {
     ANGEL, DEMON, MAGIC, HUMAN, FAIRY, ORC
 }
 
