@@ -27,7 +27,7 @@ class MenuController() {
 
     @FXML private lateinit var DecksButton: Button
     @FXML fun Decks(event: ActionEvent) {
-        println("I love ${Tribe.HUMAN}s")
+        throw UnsupportedOperationException("Yet to be implemented")
     }
 
     @FXML private lateinit var QuitButton: Button

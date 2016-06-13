@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <BorderPane fx:id="Opponent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+            <right>
+                <StackPane fx:id="OppGrave" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="217.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+            </right>
+            <left>
+                <VBox alignment="TOP_CENTER" maxHeight="227.0" maxWidth="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label alignment="CENTER" text="Enemy">
+                            <font>
+                                <Font size="17.0" />
+                            </font>
+                        </Label>
+                        <ImageView fx:id="OppImage" fitHeight="201.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </VBox>
+            </left>
+            <center>
+                <VBox fx:id="OppBoard" maxHeight="246.0" prefHeight="246.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox fx:id="OppCastables" prefHeight="113.0" prefWidth="200.0">
+                            <children>
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                            </children>
+                        </HBox>
+                        <HBox fx:id="OppMonsters" prefHeight="113.0" prefWidth="200.0">
+                            <children>
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </center>
+         <top>
+                <HBox prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox fx:id="OppHand" prefHeight="72.0" prefWidth="512.0" />
+                        <StackPane fx:id="OppDeck" prefHeight="100.0" prefWidth="109.0" />
+                    </children>
+                </HBox>
+         </top>
+        </BorderPane>
+      <BorderPane fx:id="Self" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="600.0">
+         <top>
+            <HBox fx:id="Phases" alignment="CENTER" prefHeight="68.0" prefWidth="600.0" spacing="60.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Draw">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Standby">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Main 1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Battle">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Main 2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="End">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </top>
+         <right>
+            <StackPane fx:id="SelfGrave" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="217.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+         </right>
+         <left>
+            <VBox alignment="TOP_CENTER" maxHeight="227.0" maxWidth="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" text="Self">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="SelfImage" fitHeight="201.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </VBox>
+         </left>
+         <bottom>
+            <HBox prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="SelfHand" prefHeight="72.0" prefWidth="512.0" />
+                  <StackPane fx:id="SelfDeck" prefHeight="100.0" prefWidth="109.0" />
+               </children>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox fx:id="SelfBoard" prefHeight="200.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="SelfMonsters" prefHeight="113.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="SelfCastables" prefHeight="113.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+    </children>
+</VBox>

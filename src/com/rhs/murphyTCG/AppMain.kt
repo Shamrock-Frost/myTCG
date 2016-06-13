@@ -1,5 +1,6 @@
 package com.rhs.murphyTCG
 
+import com.rhs.murphyTCG.logic.FindBattleController
 import com.rhs.murphyTCG.logic.LoginController
 import com.rhs.murphyTCG.logic.MenuController
 import com.rhs.murphyTCG.network.Client
@@ -18,7 +19,8 @@ class AppMain : Application() {
         window = primaryStage
         window.title = "Malfeasance"
 
-        loadLoginScene()
+        //loadLoginScene()
+        loadBattleSelect()
     }
 
     private fun loadLoginScene() {
@@ -32,7 +34,18 @@ class AppMain : Application() {
         window.show()
     }
 
-    internal fun close() {25
+    private fun loadBattleSelect() {
+        val loginLoader = FXMLLoader(this.javaClass.getResource("GUI/scenes/FindBattle.fxml"))
+        val root = loginLoader.load<Parent>()
+
+        val controller = loginLoader.getController<FindBattleController>()
+        controller.main = this
+
+        window.scene = Scene(root)
+        window.show()
+    }
+
+    internal fun close() {
         if(isServer!!) Server.server.close()
         else Client.client.close()
         //Cleanup code

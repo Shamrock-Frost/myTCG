@@ -1,47 +1,42 @@
 package com.rhs.murphyTCG.GUI
 
+import com.rhs.murphyTCG.ServerDeck
 import com.rhs.murphyTCG.get
-import com.rhs.murphyTCG.logic.Match
-import com.rhs.murphyTCG.logic.Card
-import com.rhs.murphyTCG.logic.Match.Companion.Player
-import com.rhs.murphyTCG.logic.Monster
-import com.rhs.murphyTCG.logic.React
+import com.rhs.murphyTCG.isServer
+import com.rhs.murphyTCG.logic.*
+import com.rhs.murphyTCG.network.Server
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
-import javafx.scene.Node
+import javafx.scene.Scene
 import javafx.scene.control.CheckBox
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
 import javafx.scene.shape.Rectangle
 
 internal class MatchNode(val representing: Match) {
-    val player1 = generatePlayer(representing.player1)
-    val player2 = generatePlayer(representing.player2)
-    val board = VBox(player1, player2)
+    private val loader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/BattleScene.fxml"))
+    val controller = loader.getController<BattleController>()
+    val scene = Scene(loader.load<VBox>())
 
-    private fun generatePlayer(from: Player): BorderPane {
-        val to = FXMLLoader.load<BorderPane>(javaClass.getResource("PlayerBoard.fxml"))
-        //Hand to hand
-        ((to.bottom as HBox)[0] as HBox).children.addAll(from.hand.map { CardNode(it, this) })
-        //Deck to deck
-        ((to.bottom as HBox)[1] as StackPane).children.addAll(from.deck.map {
-            HiddenCardNode(CardNode(it, this))
-        }) //TODO: Add logic for turning up on draw
-        return to
+    init {
+        controller.loadFriendly(this)
+        controller.loadEnemy(this)
     }
 }
 
-internal class HiddenCardNode(val hiding: CardNode) : Rectangle(80.0, 131.0)
+internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(80.0, 131.0))
 
-internal class CardNode(val representing: Card, val inside: MatchNode) : StackPane(Rectangle(80.0, 131.0)) {
+internal class CardNode(val representing: CardWrapper, val inside: MatchNode) : StackPane(Rectangle(80.0, 131.0)) {
     val inHand = EventHandler<MouseEvent> {
-        val slots: HBox = (inside.player1.center as VBox)[if(representing is Monster) 0 else 1] as HBox
+        val slots: HBox =
+                if(representing.wrapping.cardType === Card.CardType.MONSTER) inside.controller.SelfMonsters
+                else inside.controller.SelfCastables
         //See if the player wants to play it as a hidden card
         val hidden = CheckBox("Hide?")
-        if(representing is React) {
+        hidden.isAllowIndeterminate = false
+        if(representing.wrapping.cardType === Card.CardType.REACT) {
             hidden.isVisible = false
             hidden.isSelected = true
         }
@@ -58,44 +53,43 @@ internal class CardNode(val representing: Card, val inside: MatchNode) : StackPa
                 //Play this in the game representation
                 inside.representing.player1.play(this.representing, hidden.isSelected)
                 //Remove this from hand
-                this.parent.childrenUnmodifiable -= this
+                (this.parent as StackPane).children -= this
                 this.onMouseClicked = null
             }}
     }
     //TODO: Set this in battlephase init
     val monsterCombatPhase = EventHandler<MouseEvent> {
-        //This should only be called on monsters, throw a runtime error and avoid later checks
-        val monster = representing as Monster
         //If they have no monsters
         if(inside.representing.player2.monsters.all { it == null }) {
-            val opponentBox = (inside.player2.left as VBox)[1]
+            val opponentBox = inside.controller.OppImage
             opponentBox.onMouseClicked = EventHandler {
                 //Call my onAttack
-                monster.onAttack(inside.representing.player2)
+                if(isServer!!) Server.server.sendToAllTCP()
+                representing.wrapping.onAttack(inside.representing.player2.hero, representing.context!!)
                 //Reduce their health and if they're dead end the match
-                inside.representing.player2.health -= monster.attack
+                inside.representing.player2.health -= representing.wrapping.attack as Int
                 if(inside.representing.player2.health <= 0) inside.representing.endMatch()
                 //remove this command
                 opponentBox.onMouseClicked = null
             }
         }
-        ((inside.player2.center as HBox)[0] as VBox)
+        inside.controller.OppMonsters
             .children
             .filter { box -> (box as StackPane).children.size == 0 }
             .forEach { box -> box.onMouseClicked = EventHandler {
                 //Do combat between the two and save the dead monsters
-                val dead = inside.representing.combat(representing, ((box as StackPane)[0] as CardNode).representing as Monster)
+                val dead = inside.representing.combat(representing, ((box as StackPane)[0] as CardNode).representing)
                 val attacking = (box[0] as CardNode)
                 //Remove the dead from the board and put them in the grave
                 if(representing in dead) {
-                    parent.childrenUnmodifiable -= this
-                    (inside.player1.right as StackPane).children += this
+                    inside.controller.SelfMonsters.children -= this
+                    inside.controller.SelfGrave.children += this
                 }
                 if(attacking.representing in dead) {
-                    attacking.parent.childrenUnmodifiable -= attacking
-                    (inside.player2.right as StackPane).children += attacking
+                    inside.controller.OppMonsters.children -= attacking
+                    inside.controller.OppGrave.children += attacking
                 }
             }}
-        onMouseClicked = null;
+        onMouseClicked = null
     }
 }

@@ -10,7 +10,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 
-class LoginController() {
+class LoginController {
     //Have to store it like this so to change scene
     lateinit var main: AppMain
 
