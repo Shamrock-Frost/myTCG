@@ -11,42 +11,43 @@ internal class Match(deck1: Stack<CardWrapper>, hero1: Card, deck2: Stack<CardWr
     //Methods called when phases are entered
     fun drawPhase() {
         currentPlayer.draw(1, true)
-        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.drawPhase(it.context!!) }
-        currentPlayer.castables.filterNotNull().forEach { it.wrapping.drawPhase(it.context!!) }
+        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.drawPhase(it.context!!, it) }
+        currentPlayer.castables.filterNotNull().forEach { it.wrapping.drawPhase(it.context!!, it) }
     }
 
     fun standbyPhase() {
-        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.standbyPhase(it.context!!) }
-        currentPlayer.castables.filterNotNull().forEach { it.wrapping.standbyPhase(it.context!!) }
+        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.standbyPhase(it.context!!, it) }
+        currentPlayer.castables.filterNotNull().forEach { it.wrapping.standbyPhase(it.context!!, it) }
     }
 
     fun battlePhase() {
-        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.battlePhase(it.context!!) }
-        currentPlayer.castables.filterNotNull().forEach { it.wrapping.battlePhase(it.context!!) }
+        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.battlePhase(it.context!!, it) }
+        currentPlayer.castables.filterNotNull().forEach { it.wrapping.battlePhase(it.context!!, it) }
     }
 
     fun endPhase() {
-        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.endPhase(it.context!!) }
-        currentPlayer.castables.filterNotNull().forEach { it.wrapping.endPhase(it.context!!) }
+        currentPlayer.monsters.filterNotNull().forEach { it.wrapping.endPhase(it.context!!, it) }
+        currentPlayer.castables.filterNotNull().forEach { it.wrapping.endPhase(it.context!!, it) }
         currentPlayer = if(currentPlayer !== player1) player1 else player2
     }
 
     fun combat(attacker: CardWrapper, defender: CardWrapper) : List<CardWrapper> {
-        attacker.wrapping.onAttack(defender, attacker.context!!)
-        defender.wrapping.onAttacked(attacker, defender.context!!)
+        attacker.wrapping.onAttack(defender, attacker.context!!, attacker)
+        defender.wrapping.onAttacked(attacker, defender.context!!, defender)
         attacker.health = attacker.health!!.minus(defender.wrapping.attack as Int)
         defender.health = defender.health!!.minus(attacker.wrapping.attack as Int)
-        attacker.wrapping.onDamageChar(defender, attacker.context!!)
-        defender.wrapping.onDamaged(attacker, attacker.context!!)
+        attacker.wrapping.onDamageChar(defender, attacker.context!!, attacker)
+        defender.wrapping.onDamaged(attacker, attacker.context!!, defender)
         val dead = listOf(attacker, defender).filter { (it.wrapping.health as Int) <= 0 }
-        dead.forEach { kill(it) }
+        if(attacker in dead) kill(attacker, defender)
+        if(defender in dead) kill(defender, attacker)
         return dead
     }
 
-    fun kill(monster: CardWrapper) {
+    fun kill(monster: CardWrapper, killer: CardWrapper) {
         val owner = if(monster in player1.monsters) player1 else player2
         owner.monsters[owner.monsters.indexOf(monster)] = null
-        monster.wrapping.onDestroyed(this)
+        monster.wrapping.onDestroyed(killer, this, monster)
         owner.grave += monster
     }
 

@@ -21,7 +21,6 @@ import javafx.scene.layout.StackPane
 import javafx.scene.shape.Rectangle
 
 internal class MatchNode(val representing: Match, val controller: BattleController) {
-
     init {
         controller.loadFriendly(this)
         controller.loadEnemy(this)
