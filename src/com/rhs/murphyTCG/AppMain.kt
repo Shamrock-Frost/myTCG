@@ -19,8 +19,8 @@ class AppMain : Application() {
         window = primaryStage
         window.title = "Malfeasance"
 
-        //loadLoginScene()
-        loadBattleSelect()
+        loadLoginScene()
+        //loadBattleSelect()
     }
 
     private fun loadLoginScene() {

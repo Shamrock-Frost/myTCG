@@ -31,18 +31,18 @@ internal enum class Card(val cardName: String,
 
     //For ease of sending stuff over the network
     val effects: EnumMap<Effect, EffectFunction> = EnumMap(mapOf(
-        Pair(Effect.GRAVE, EffectFunction.ReactiveFunction(toGrave)),
-        Pair(Effect.CAST, EffectFunction.ReactiveFunction(onCast)),
-        Pair(Effect.DESTROYED, EffectFunction.ReactiveFunction(onDestroyed)),
-        Pair(Effect.DRAWN, EffectFunction.DependentFunction(onDraw)),
-        Pair(Effect.DRAWP, EffectFunction.ReactiveFunction(drawPhase)),
-        Pair(Effect.STANDBYP, EffectFunction.ReactiveFunction(standbyPhase)),
-        Pair(Effect.BATTLEP, EffectFunction.ReactiveFunction(battlePhase)),
-        Pair(Effect.ENDP, EffectFunction.ReactiveFunction(endPhase)),
-        Pair(Effect.ATTACKING, EffectFunction.TargetingFunction(onAttack)),
-        Pair(Effect.ATTACKED, EffectFunction.TargetingFunction(onAttacked)),
-        Pair(Effect.DEALTDMG, EffectFunction.TargetingFunction(onDamageChar)),
-        Pair(Effect.TOOKDMG, EffectFunction.TargetingFunction(onDamaged))
+        Effect.GRAVE.to(EffectFunction.ReactiveFunction(toGrave)),
+        Effect.CAST.to(EffectFunction.ReactiveFunction(onCast)),
+        Effect.DESTROYED.to(EffectFunction.ReactiveFunction(onDestroyed)),
+        Effect.DRAWN.to(EffectFunction.DependentFunction(onDraw)),
+        Effect.DRAWP.to(EffectFunction.ReactiveFunction(drawPhase)),
+        Effect.STANDBYP.to(EffectFunction.ReactiveFunction(standbyPhase)),
+        Effect.BATTLEP.to(EffectFunction.ReactiveFunction(battlePhase)),
+        Effect.ENDP.to(EffectFunction.ReactiveFunction(endPhase)),
+        Effect.ATTACKING.to(EffectFunction.TargetingFunction(onAttack)),
+        Effect.ATTACKED.to(EffectFunction.TargetingFunction(onAttacked)),
+        Effect.DEALTDMG.to(EffectFunction.TargetingFunction(onDamageChar)),
+        Effect.TOOKDMG.to(EffectFunction.TargetingFunction(onDamaged))
     ))
 
     companion object {
@@ -53,8 +53,21 @@ internal enum class Card(val cardName: String,
         }
         internal sealed class EffectFunction {
             class ReactiveFunction(val effect: (Match) -> Unit) : EffectFunction()
-            class DependentFunction(val effect: (Boolean, Match) -> Unit) : EffectFunction()
-            class TargetingFunction(val effect: (CardWrapper, Match) -> Unit) : EffectFunction()
+            class DependentFunction(val effect: (Boolean, Match) -> Unit) : EffectFunction() {
+                internal var condition: Boolean? = null
+                fun with(b: Boolean): DependentFunction {
+                    condition = b
+                    return this
+                }
+            }
+
+            class TargetingFunction(val effect: (CardWrapper, Match) -> Unit) : EffectFunction() {
+                internal lateinit var condition: CardWrapper
+                fun with(cw: CardWrapper): TargetingFunction {
+                    condition = cw
+                    return this
+                }
+            }
         }
     }
 }

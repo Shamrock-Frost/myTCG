@@ -3,7 +3,7 @@ import com.rhs.murphyTCG.firstOpen
 import java.util.Stack
 import java.util.ArrayList
 import java.util.Collections.shuffle
-import com.rhs.murphyTCG.logic.Card.Companion.CardType.MONSTER
+import com.rhs.murphyTCG.logic.Card.Companion.CardType.*
 
 internal class Player(val deck: Stack<CardWrapper>, hero: Card, context: Match) {
     val hero = CardWrapper(hero, context)
@@ -32,7 +32,7 @@ internal class Player(val deck: Stack<CardWrapper>, hero: Card, context: Match) 
     fun play(card: CardWrapper, hidden: Boolean) {
         hand.remove(card)
         card.hidden = hidden
-        if (card.wrapping.cardType == MONSTER) monsters[monsters.firstOpen()] = card
+        if (card.wrapping.cardType === MONSTER) monsters[monsters.firstOpen()] = card
         else castables[castables.firstOpen()] = card
     }
 

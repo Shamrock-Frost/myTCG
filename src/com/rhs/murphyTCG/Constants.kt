@@ -25,16 +25,16 @@ internal fun <E> stackOf(vararg es: E): Stack<E> {
     return result
 }
 
-//Networking
-val LOCAL_HOST = InetAddress.getLocalHost()
 const val PORT = 30725
 
 //Global state is bad and I'm a bad programmer
 //Nullable global state makes me feel dead inside
 var isServer: Boolean? = null
 
+fun DoNothing() = Unit
 fun DoNothing(a1: Any) = Unit
 fun DoNothing(a1: Any, a2: Any) = Unit
 
+//TODO: Make these decks
 internal val ServerDeck: Stack<CardWrapper> = stackOf()
 internal val ClientDeck: Stack<CardWrapper> = stackOf()
