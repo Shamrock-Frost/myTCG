@@ -4,16 +4,37 @@ import com.rhs.murphyTCG.AppMain
 import com.rhs.murphyTCG.GUI.CardNode
 import com.rhs.murphyTCG.GUI.HiddenCardNode
 import com.rhs.murphyTCG.GUI.MatchNode
+import com.rhs.murphyTCG.but
+import com.rhs.murphyTCG.isServer
+import com.rhs.murphyTCG.network.Client
+import com.rhs.murphyTCG.network.SayHi
+import com.rhs.murphyTCG.network.Server
+import javafx.application.Platform
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.control.Label
+import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
-import java.util.*
+import java.util.Stack
 
 class BattleController {
     lateinit var main: AppMain
+
+    @FXML private lateinit var ChatBox: TextField
+    @FXML fun Chat(e: ActionEvent) {
+        val text = ChatBox.text
+        ChatBox.text = ""
+        Platform.runLater {
+            if (isServer!!) Server.send(message = text)
+            else Client.send(message = text)
+        }
+    }
 
     internal fun initMatch(deck: Stack<CardWrapper>, hero: Card) {
         //TODO: Start a local match
@@ -41,6 +62,8 @@ class BattleController {
 
     @FXML internal lateinit var OppImage: ImageView
 
+    @FXML internal lateinit var OppName: Label
+
     @FXML internal lateinit var OppBoard: VBox
 
     @FXML internal lateinit var OppCastables: HBox
@@ -58,6 +81,8 @@ class BattleController {
     @FXML internal lateinit var SelfGrave: StackPane
 
     @FXML internal lateinit var SelfImage: ImageView
+
+    @FXML internal lateinit var SelfName: Label
 
     @FXML internal lateinit var SelfHand: HBox
 

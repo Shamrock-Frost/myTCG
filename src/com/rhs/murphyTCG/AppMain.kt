@@ -46,8 +46,10 @@ class AppMain : Application() {
     }
 
     internal fun close() {
-        if(isServer!!) Server.server.close()
-        else Client.client.close()
+        if(isServer != null) {
+            if (isServer!!) Server.server.close()
+            else Client.client.close()
+        }
         //Cleanup code
         window.close()
     }

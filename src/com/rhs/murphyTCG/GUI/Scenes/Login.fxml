@@ -18,7 +18,7 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <TextField onAction="#Login" />
+                <TextField fx:id="Username" onAction="#Login" />
             </children>
             <VBox.margin>
                 <Insets />

@@ -19,6 +19,10 @@ internal operator fun Parent.plus(node: Node) = Group(this.childrenUnmodifiable 
 internal fun Array<out Card?>.firstOpen() = this.indexOfFirst { it == null }
 internal fun Array<CardWrapper?>.firstOpen() = this.indexOfFirst { it == null }
 internal operator fun Parent.get(i: Int) = childrenUnmodifiable[i]
+internal fun <T> T.but(f: (T) -> Unit): T {
+    f(this)
+    return this
+}
 internal fun <E> stackOf(vararg es: E): Stack<E> {
     val result = Stack<E>()
     result.addAll(es)
@@ -26,6 +30,7 @@ internal fun <E> stackOf(vararg es: E): Stack<E> {
 }
 
 const val PORT = 30725
+val localhost = InetAddress.getLocalHost()
 
 //Global state is bad and I'm a bad programmer
 //Nullable global state makes me feel dead inside
@@ -38,3 +43,5 @@ fun DoNothing(a1: Any, a2: Any) = Unit
 //TODO: Make these decks
 internal val ServerDeck: Stack<CardWrapper> = stackOf()
 internal val ClientDeck: Stack<CardWrapper> = stackOf()
+
+internal var name: String? = null
