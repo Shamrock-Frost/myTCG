@@ -1,9 +1,6 @@
 package com.rhs.murphyTCG.GUI
 
-import com.rhs.murphyTCG.ClientDeck
-import com.rhs.murphyTCG.DoNothing
-import com.rhs.murphyTCG.get
-import com.rhs.murphyTCG.isServer
+import com.rhs.murphyTCG.*
 import com.rhs.murphyTCG.logic.*
 import com.rhs.murphyTCG.logic.Card.Companion.CardType.*
 import com.rhs.murphyTCG.network.Attack
@@ -27,9 +24,16 @@ internal class MatchNode(val representing: Match, val controller: BattleControll
     }
 }
 
-internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(80.0, 131.0))
+internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(40.0, 65.0).but {
+    it.style = "-fx-background-color: grey;"
+    //it.isVisible = false
+} )
 
-internal class CardNode(val representing: CardWrapper, val inside: MatchNode) : StackPane(Rectangle(80.0, 131.0), Label(representing.wrapping.cardName)) {
+internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
+        StackPane(Rectangle(40.0, 65.0).but {
+            it.style = "-fx-background-color: grey;"
+            it.isVisible = false
+        }, Label(representing.wrapping.cardName)) {
     val inHand = EventHandler<MouseEvent> {
         val slots: HBox =
                 if(representing.wrapping.cardType === MONSTER) inside.controller.SelfMonsters

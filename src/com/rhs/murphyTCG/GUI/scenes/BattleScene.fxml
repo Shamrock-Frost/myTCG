@@ -49,6 +49,11 @@
                                 <StackPane prefHeight="150.0" prefWidth="200.0" />
                             </children>
                         </HBox>
+                  <Label fx:id="OppSays" prefHeight="53.0" prefWidth="406.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                     </children>
                 </VBox>
             </center>
@@ -102,14 +107,7 @@
             </HBox>
          </top>
          <right>
-            <StackPane fx:id="SelfGrave" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="217.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <TextField fx:id="ChatBox" onAction="#Chat" text="Say Something!">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </TextField>
-               </children></StackPane>
+            <StackPane fx:id="SelfGrave" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="217.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
          </right>
          <left>
             <VBox alignment="TOP_CENTER" maxHeight="227.0" maxWidth="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -152,6 +150,11 @@
                         <StackPane prefHeight="150.0" prefWidth="200.0" />
                      </children>
                   </HBox>
+                  <TextField fx:id="ChatBox" onAction="#Chat" text="Say Something!">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </TextField>
                </children>
             </VBox>
          </center>

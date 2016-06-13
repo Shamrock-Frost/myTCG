@@ -4,6 +4,7 @@ import com.rhs.murphyTCG.AppMain
 import com.rhs.murphyTCG.GUI.CardNode
 import com.rhs.murphyTCG.GUI.HiddenCardNode
 import com.rhs.murphyTCG.GUI.MatchNode
+import com.rhs.murphyTCG.ServerDeck
 import com.rhs.murphyTCG.but
 import com.rhs.murphyTCG.isServer
 import com.rhs.murphyTCG.network.Client
@@ -26,6 +27,13 @@ import java.util.Stack
 class BattleController {
     lateinit var main: AppMain
 
+    internal fun initialize() {
+        initMatch(deck1 = ServerDeck, hero1 = Card.GoodGirl, deck2 = ServerDeck, hero2 = Card.BadDude)
+        println("Heyyyy")
+    }
+
+    @FXML internal lateinit var OppSays: Label
+
     @FXML private lateinit var ChatBox: TextField
     @FXML fun Chat(e: ActionEvent) {
         val text = ChatBox.text
@@ -36,10 +44,14 @@ class BattleController {
         }
     }
 
-    internal fun initMatch(deck: Stack<CardWrapper>, hero: Card) {
-        //TODO: Start a local match
+    internal fun initMatch(deck1: Stack<CardWrapper>, hero1: Card, deck2: Stack<CardWrapper>, hero2: Card): MatchNode {
+        val match = MatchNode(Match(deck1 = deck1, deck2 = deck2, hero1 = hero1, hero2 = hero2), this)
+        loadFriendly(match)
+        loadEnemy(match)
+        return match
     }
 
+    //TODO: DO these, and do on the new branch
     internal fun loadFriendly(from: MatchNode) {
         SelfHand.children.addAll(from.representing.player1.hand.map { CardNode(it, from) })
         //Deck to deck

@@ -31,6 +31,7 @@ internal fun <E> stackOf(vararg es: E): Stack<E> {
     return result
 }
 internal operator fun Int.plus(cw: CardWrapper) = cw.attack!!.plus(this)
+internal operator fun Card.times(i: Int) = (1..i).map { CardWrapper(this) }
 
 const val PORT = 30725
 val localhost = InetAddress.getLocalHost()
@@ -46,18 +47,14 @@ fun DoNothing(a1: Any, a2: Any, a3: Any) = Unit
 fun DoNothing(a1: Any, a2: Any, a3: Any, a4: Any) = Unit
 
 //TODO: Make these decks
-internal val ServerDeck: Stack<CardWrapper> = stackOf(
-    CardWrapper(Card.CHERUB)
-    , CardWrapper(Card.CHERUB)
-    , CardWrapper(Card.CHERUB)
-    , CardWrapper(Card.SERAPH)
-    , CardWrapper(Card.SERAPH)
-    , CardWrapper(Card.SERAPH)
-    , CardWrapper(Card.SERAPH)
-    , CardWrapper(Card.ARCHANGEL_MIKEY)
-    , CardWrapper(Card.DIVINE_WRATH)
-    , CardWrapper(Card.DIVINE_WRATH)
-)
-internal val ClientDeck: Stack<CardWrapper> = stackOf()
+internal val ServerDeck: Stack<CardWrapper> = stackOf(*(
+    Card.CHERUB * 3
+    + Card.SERAPH * 4
+    + Card.ARCHANGEL_MIKEY * 1
+    + Card.DIVINE_WRATH * 2
+).toTypedArray())
+internal val ClientDeck: Stack<CardWrapper> = stackOf(*(
+        Card.IMP * 3
+).toTypedArray())
 
 internal var name: String? = null

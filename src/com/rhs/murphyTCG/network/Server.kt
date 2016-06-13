@@ -37,14 +37,12 @@ object Server {
                         controller.OppName.text = packet.name
                         controller.SelfName.text = name
                         Platform.runLater {
+                            controller.initialize()
                             controller.main.window.scene = Scene(root)
                         }
                     }
-                    is SayHi -> {
-                        Platform.runLater {
-                            controller.OppGrave.children.clear()
-                            controller.OppGrave.children.add(Label(packet.message))
-                        }
+                    is SayHi -> Platform.runLater {
+                        controller.OppSays.text = packet.message
                     }
                 }
                 noResponse = false

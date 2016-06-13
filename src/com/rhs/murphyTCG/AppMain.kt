@@ -6,6 +6,7 @@ import com.rhs.murphyTCG.logic.MenuController
 import com.rhs.murphyTCG.network.Client
 import com.rhs.murphyTCG.network.Server
 import javafx.application.Application
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
@@ -46,12 +47,14 @@ class AppMain : Application() {
     }
 
     internal fun close() {
-        if(isServer != null) {
-            if (isServer!!) Server.server.close()
-            else Client.client.close()
+        Platform.runLater {
+            if (isServer != null) {
+                if (isServer!!) Server.server.close()
+                else Client.client.close()
+            }
+            //Cleanup code
+            window.close()
         }
-        //Cleanup code
-        window.close()
     }
 
     companion object {
