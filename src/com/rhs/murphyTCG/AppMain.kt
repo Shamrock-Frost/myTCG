@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
+import java.net.InetAddress
 
 class AppMain : Application() {
     //The Stage needs public/internal access so it can be changed
@@ -58,6 +59,13 @@ class AppMain : Application() {
     }
 
     companion object {
-        @JvmStatic fun main(args: Array<String>) = Application.launch(AppMain::class.java)
+        @JvmStatic fun main(args: Array<String>) {
+            args.forEachIndexed { i, arg ->
+                if(i == 0) IP = InetAddress.getByName(arg)
+                if(i == 1) PORT = arg.toInt()
+            }
+
+            Application.launch(AppMain::class.java)
+        }
     }
 }

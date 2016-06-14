@@ -30,7 +30,8 @@ class FindBattleController {
         val pane = HostButton.parent as VBox
         pane.children.forEach { it.isVisible = false }
         Waiting.isVisible = true
-        Server.init(root, controller.but { it.main = main })
+        val ip = Server.init(root, controller.but { it.main = main })
+        Waiting.text += "\nIP is: $ip"
     }
 
     @FXML private lateinit var JoinButton: Button

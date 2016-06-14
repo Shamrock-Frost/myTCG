@@ -13,6 +13,7 @@ import javafx.application.Platform
 import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
+import java.net.InetAddress
 import java.util.Stack
 
 //To Future Me: Objects are created lazily, don't worry
@@ -50,7 +51,7 @@ object Client {
             override fun disconnected(connection: Connection?) = controller.main.close()
         })
 
-        client.connect(Int.MAX_VALUE, localhost, PORT)
+        client.connect(5000, IP, PORT)
     }
 
     internal fun send(message: String) = client.sendTCP(SayHi().but { it.message = message })

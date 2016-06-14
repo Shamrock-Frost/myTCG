@@ -14,6 +14,7 @@ import javafx.application.Platform
 import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
+import java.net.InetAddress
 
 //To Future Me: Objects are created lazily, don't worry
 object Server {
@@ -21,7 +22,7 @@ object Server {
 
     val server = Server()
 
-    internal fun init(root: VBox, controller: BattleController) {
+    internal fun init(root: VBox, controller: BattleController): String {
         isServer = true
 
         register(server)
@@ -53,6 +54,8 @@ object Server {
 
         server.bind(PORT)
         server.start()
+
+        return InetAddress.getLocalHost().hostAddress
     }
 
     internal fun send(message: String) = server.sendToAllTCP(SayHi().but { it.message = message })

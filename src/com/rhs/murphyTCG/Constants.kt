@@ -33,9 +33,6 @@ internal fun <E> stackOf(vararg es: E): Stack<E> {
 internal operator fun Int.plus(cw: CardWrapper) = cw.attack!!.plus(this)
 internal operator fun Card.times(i: Int) = (1..i).map { CardWrapper(this) }
 
-const val PORT = 30725
-val localhost = InetAddress.getLocalHost()
-
 //Global state is bad and I'm a bad programmer
 //Nullable global state makes me feel dead inside
 var isServer: Boolean? = null
@@ -57,4 +54,6 @@ internal val ClientDeck: Stack<CardWrapper> = stackOf(*(
         Card.IMP * 3
 ).toTypedArray())
 
-internal var name: String? = null
+internal var name: String = ""
+internal var IP: InetAddress = InetAddress.getLocalHost()
+internal var PORT = 30725
