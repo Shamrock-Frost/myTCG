@@ -54,9 +54,10 @@ class AppMain : Application() {
                 if (isServer!!) Server.server.close()
                 else Client.client.close()
             }
-            //Cleanup code
-            window.close()
         }
+        //Cleanup code
+        window.close()
+        System.exit(0)
     }
 
     companion object {
