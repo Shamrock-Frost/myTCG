@@ -6,7 +6,7 @@ import com.rhs.murphyTCG.logic.Card.Companion.CardType.*
 import com.rhs.murphyTCG.network.Attack
 import com.rhs.murphyTCG.network.Client
 import com.rhs.murphyTCG.network.Server
-import com.rhs.murphyTCG.network.Summoned
+import com.rhs.murphyTCG.network.Summon
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -31,8 +31,8 @@ internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(40.0, 
 
 internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
         StackPane(Rectangle(40.0, 65.0).but {
-            it.style = "-fx-background-color: grey;"
-            it.isVisible = false
+            it.style = "-fx-background-color: grey;" + "-fx-border-color: lightcyan;"
+            //it.isVisible = false
         }, Label(representing.wrapping.cardName)) {
     val inHand = EventHandler<MouseEvent> {
         val slots: HBox =
@@ -61,8 +61,8 @@ internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
                 (this.parent as StackPane).children -= this
                 this.onMouseClicked = null
             }}
-        if(isServer!!) Server.server.sendToAllTCP(Summoned(representing))
-        else Client.client.sendTCP(Summoned(representing))
+        if(isServer!!) Server.server.sendToAllTCP(Summon().but { it.mons = representing })
+        else Client.client.sendTCP(Summon().but { it.mons = representing })
     }
 
     val monsterCombatPhase = EventHandler<MouseEvent> {

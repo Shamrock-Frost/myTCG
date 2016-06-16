@@ -8,7 +8,7 @@ import com.rhs.murphyTCG.ServerDeck
 import com.rhs.murphyTCG.but
 import com.rhs.murphyTCG.isServer
 import com.rhs.murphyTCG.network.Client
-import com.rhs.murphyTCG.network.SayHi
+import com.rhs.murphyTCG.network.Chat
 import com.rhs.murphyTCG.network.Server
 import javafx.application.Platform
 import javafx.event.ActionEvent
@@ -44,7 +44,7 @@ class BattleController {
         }
     }
 
-    internal fun initMatch(deck1: Stack<CardWrapper>, hero1: Card, deck2: Stack<CardWrapper>, hero2: Card): MatchNode {
+    internal fun initMatch(deck1: Stack<Card>, hero1: Card, deck2: Stack<Card>, hero2: Card): MatchNode {
         val match = MatchNode(Match(deck1 = deck1, deck2 = deck2, hero1 = hero1, hero2 = hero2), this)
         loadFriendly(match)
         loadEnemy(match)

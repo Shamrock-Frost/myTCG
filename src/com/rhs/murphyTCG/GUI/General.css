@@ -3,3 +3,8 @@
     -fx-background-color: antiquewhite;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
 }
+
+.card-node {
+    -fx-background-color: grey;
+    -fx-border-color: lightcyan;
+}

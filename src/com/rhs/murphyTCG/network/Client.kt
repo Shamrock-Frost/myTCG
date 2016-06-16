@@ -14,7 +14,6 @@ import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import java.net.InetAddress
-import java.util.Stack
 
 //To Future Me: Objects are created lazily, don't worry
 object Client {
@@ -42,7 +41,7 @@ object Client {
                             controller.main.window.scene = Scene(root)
                         }
                     }
-                    is SayHi -> Platform.runLater {
+                    is Chat -> Platform.runLater {
                         controller.OppSays.text = packet.message
                     }
                 }
@@ -54,5 +53,5 @@ object Client {
         client.connect(5000, IP, PORT)
     }
 
-    internal fun send(message: String) = client.sendTCP(SayHi().but { it.message = message })
+    internal fun send(message: String) = client.sendTCP(Chat().but { it.message = message })
 }

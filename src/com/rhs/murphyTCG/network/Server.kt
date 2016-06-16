@@ -42,7 +42,7 @@ object Server {
                             controller.main.window.scene = Scene(root)
                         }
                     }
-                    is SayHi -> Platform.runLater {
+                    is Chat -> Platform.runLater {
                         controller.OppSays.text = packet.message
                     }
                 }
@@ -58,5 +58,5 @@ object Server {
         return InetAddress.getLocalHost().hostAddress
     }
 
-    internal fun send(message: String) = server.sendToAllTCP(SayHi().but { it.message = message })
+    internal fun send(message: String) = server.sendToAllTCP(Chat().but { it.message = message })
 }

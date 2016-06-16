@@ -12,6 +12,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import java.net.InetAddress
+import java.util.*
 
 class AppMain : Application() {
     //The Stage needs public/internal access so it can be changed
@@ -64,7 +65,6 @@ class AppMain : Application() {
                 if(i == 0) IP = InetAddress.getByName(arg)
                 if(i == 1) PORT = arg.toInt()
             }
-
             Application.launch(AppMain::class.java)
         }
     }

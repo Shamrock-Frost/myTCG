@@ -46,9 +46,9 @@ internal enum class Card(val cardName: String,
                 val oppMons = match.player2.monsters.filterNotNull()
                 oppMons.forEach { cw.kill(it) }
 
-                val totalATK = selfMons.fold(0, { curr, cw -> curr + cw }) + selfMons.fold(0, { curr, cw -> curr + cw })
+                val totalATK = selfMons.sumBy { it.attack ?: 0 } + oppMons.sumBy { it.attack ?: 0 }
                 match.player1.health -= totalATK / 2
-                cw.attack = cw.attack!!.plus(totalATK / 4)
+                cw.attack = cw.attack!! + totalATK / 4
             }
     )
     , DIVINE_WRATH(cardName = "Divine Wrath", cost = 2, tribe = Tribe.ANGEL, cardType = CardType.REACT, reactTo = { reactTo, effUsed, match, cw ->
@@ -63,25 +63,25 @@ internal enum class Card(val cardName: String,
         val mons = match.player2.monsters.filterNotNull()
         val chosen = mons[Random().nextInt(mons.size)]
         cw.kill(chosen)
-        match.player2.health -= Math.round(chosen.attack!!.times(1.5)).toInt()
+        match.player2.health -= Math.round(chosen.attack!! * 1.5).toInt()
     })
     ,
     ;
 
     //For ease of sending stuff over the network
     val effects: EnumMap<Effect, EffectFunction> = EnumMap(mapOf(
-        Effect.GRAVE.to(EffectFunction.ReactiveFunction(toGrave)),
-        Effect.CAST.to(EffectFunction.ReactiveFunction(onCast)),
-        Effect.DESTROYED.to(EffectFunction.TargetingFunction(onDestroyed)),
-        Effect.DRAWN.to(EffectFunction.DependentFunction(onDraw)),
-        Effect.DRAWP.to(EffectFunction.ReactiveFunction(drawPhase)),
-        Effect.STANDBYP.to(EffectFunction.ReactiveFunction(standbyPhase)),
-        Effect.BATTLEP.to(EffectFunction.ReactiveFunction(battlePhase)),
-        Effect.ENDP.to(EffectFunction.ReactiveFunction(endPhase)),
-        Effect.ATTACKING.to(EffectFunction.TargetingFunction(onAttack)),
-        Effect.ATTACKED.to(EffectFunction.TargetingFunction(onAttacked)),
-        Effect.DEALTDMG.to(EffectFunction.TargetingFunction(onDamageChar)),
-        Effect.TOOKDMG.to(EffectFunction.TargetingFunction(onDamaged))
+        Effect.GRAVE to EffectFunction.ReactiveFunction(toGrave),
+        Effect.CAST to EffectFunction.ReactiveFunction(onCast),
+        Effect.DESTROYED to EffectFunction.TargetingFunction(onDestroyed),
+        Effect.DRAWN to EffectFunction.DependentFunction(onDraw),
+        Effect.DRAWP to EffectFunction.ReactiveFunction(drawPhase),
+        Effect.STANDBYP to EffectFunction.ReactiveFunction(standbyPhase),
+        Effect.BATTLEP to EffectFunction.ReactiveFunction(battlePhase),
+        Effect.ENDP to EffectFunction.ReactiveFunction(endPhase),
+        Effect.ATTACKING to EffectFunction.TargetingFunction(onAttack),
+        Effect.ATTACKED to EffectFunction.TargetingFunction(onAttacked),
+        Effect.DEALTDMG to EffectFunction.TargetingFunction(onDamageChar),
+        Effect.TOOKDMG to EffectFunction.TargetingFunction(onDamaged)
     ))
 
     companion object {
@@ -95,7 +95,6 @@ internal enum class Card(val cardName: String,
             class DependentFunction(val effect: (Boolean, Match, CardWrapper) -> Unit) : EffectFunction() {
                 internal var condition: Boolean? = null
             }
-
             class TargetingFunction(val effect: (CardWrapper, Match, CardWrapper) -> Unit) : EffectFunction() {
                 internal lateinit var condition: CardWrapper
             }

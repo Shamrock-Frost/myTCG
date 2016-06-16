@@ -30,8 +30,7 @@ internal fun <E> stackOf(vararg es: E): Stack<E> {
     result.addAll(es)
     return result
 }
-internal operator fun Int.plus(cw: CardWrapper) = cw.attack!!.plus(this)
-internal operator fun Card.times(i: Int) = (1..i).map { CardWrapper(this) }
+internal operator fun Card.times(i: Int) = (1..i).map { this }
 
 //Global state is bad and I'm a bad programmer
 //Nullable global state makes me feel dead inside
@@ -44,13 +43,13 @@ fun DoNothing(a1: Any, a2: Any, a3: Any) = Unit
 fun DoNothing(a1: Any, a2: Any, a3: Any, a4: Any) = Unit
 
 //TODO: Make these decks
-internal val ServerDeck: Stack<CardWrapper> = stackOf(*(
+internal val ServerDeck: Stack<Card> = stackOf(*(
     Card.CHERUB * 3
     + Card.SERAPH * 4
     + Card.ARCHANGEL_MIKEY * 1
     + Card.DIVINE_WRATH * 2
 ).toTypedArray())
-internal val ClientDeck: Stack<CardWrapper> = stackOf(*(
+internal val ClientDeck: Stack<Card> = stackOf(*(
         Card.IMP * 3
 ).toTypedArray())
 
