@@ -16,6 +16,9 @@ internal class Player(deck: Stack<Card>, hero: Card, context: Match) {
     var health: Int
         get() = hero.health as Int
         set(value) { hero.health = value }
+    var mana: Int
+        get() = hero.mana as Int
+        set(value) { hero.mana = value }
 
     init {
         this.deck.addAll(deck.map { CardWrapper(it, context) })

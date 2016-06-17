@@ -3,14 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.BattleController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.BattleController">
     <children>
         <BorderPane fx:id="Opponent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
             <right>
@@ -18,14 +17,27 @@
             </right>
             <left>
                 <VBox alignment="TOP_CENTER" maxHeight="227.0" maxWidth="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                    <children>
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="227.0" maxWidth="100.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
                         <Label fx:id="OppName" alignment="CENTER">
-                            <font>
-                                <Font size="17.0" />
-                            </font>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
                         </Label>
-                        <ImageView fx:id="OppImage" fitHeight="201.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                    </children>
+                        <Label fx:id="OppHealth" alignment="CENTER" text="Health: ">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="OppMana" alignment="CENTER" text="Mana: ">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                 </VBox>
             </left>
             <center>
@@ -117,7 +129,16 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="SelfImage" fitHeight="201.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="SelfHealth" alignment="CENTER" text="Health: ">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="SelfMana" alignment="CENTER" text="Mana: ">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
          </left>

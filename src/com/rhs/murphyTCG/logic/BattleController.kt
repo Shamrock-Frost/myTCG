@@ -54,25 +54,34 @@ class BattleController {
     //TODO: DO these, and do on the new branch
     internal fun loadFriendly(from: MatchNode) {
         SelfHand.children.addAll(from.representing.player1.hand.map { CardNode(it, from) })
+        SelfHand.children.map { it.onMouseClicked = (it as CardNode).inHand }
         //Deck to deck
         SelfDeck.children.addAll(from.representing.player1.deck.map {
             HiddenCardNode(CardNode(it, from))
         })
+        SelfHealth.text += from.representing.player1.health
+        SelfMana.text += from.representing.player1.mana
+
     }
 
     internal fun loadEnemy(from: MatchNode) {
-        OppHand.children.addAll(from.representing.player2.hand.map { CardNode(it, from) })
+        OppHand.children.addAll(from.representing.player2.hand.map { HiddenCardNode(CardNode(it, from)) })
         //Deck to deck
         OppDeck.children.addAll(from.representing.player2.deck.map {
             HiddenCardNode(CardNode(it, from))
         })
+        OppHealth.text += from.representing.player2.health
+        OppMana.text += from.representing.player2.mana
     }
+
+    @FXML internal lateinit var OppHealth: Label
+    @FXML internal lateinit var OppMana: Label
+    @FXML internal lateinit var SelfHealth: Label
+    @FXML internal lateinit var SelfMana: Label
 
     @FXML internal lateinit var Opponent: BorderPane
 
     @FXML internal lateinit var OppGrave: StackPane
-
-    @FXML internal lateinit var OppImage: ImageView
 
     @FXML internal lateinit var OppName: Label
 
@@ -91,8 +100,6 @@ class BattleController {
     @FXML internal lateinit var Phases: HBox
 
     @FXML internal lateinit var SelfGrave: StackPane
-
-    @FXML internal lateinit var SelfImage: ImageView
 
     @FXML internal lateinit var SelfName: Label
 

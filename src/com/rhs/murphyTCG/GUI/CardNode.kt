@@ -17,12 +17,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import javafx.scene.shape.Rectangle
 
-internal class MatchNode(val representing: Match, val controller: BattleController) {
-    init {
-        controller.loadFriendly(this)
-        controller.loadEnemy(this)
-    }
-}
+internal class MatchNode(val representing: Match, val controller: BattleController)
 
 internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(40.0, 65.0).but {
     it.style = "-fx-fill: grey;"
@@ -30,7 +25,12 @@ internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(40.0, 
 } )
 
 internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
-        StackPane(Rectangle(40.0, 65.0).but { it.style = "-fx-fill: WHITE;-fx-border-color: lightcyan;" }, Label(representing.wrapping.cardName)) {
+        StackPane(Rectangle(40.0, 65.0).but { it.style = "-fx-fill: white;"}, Label(representing.wrapping.cardName)) {
+
+    init {
+        this.style = "-fx-border-color: lightcyan;" +
+        "-fx-border-width: 2px;"
+    }
 
     val inHand = EventHandler<MouseEvent> {
         val slots: HBox =
