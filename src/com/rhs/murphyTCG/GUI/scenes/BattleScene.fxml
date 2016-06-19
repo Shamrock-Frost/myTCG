@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.BattleController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rhs.murphyTCG.logic.BattleController">
     <children>
         <BorderPane fx:id="Opponent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
             <right>
@@ -45,23 +47,23 @@
                     <children>
                         <HBox fx:id="OppCastables" prefHeight="113.0" prefWidth="200.0">
                             <children>
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="143.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="110.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
                             </children>
                         </HBox>
                         <HBox fx:id="OppMonsters" prefHeight="113.0" prefWidth="200.0">
-                            <children>
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                                <StackPane prefHeight="150.0" prefWidth="200.0" />
-                            </children>
+                     <children>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="143.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="110.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                     </children>
                         </HBox>
-                  <Label fx:id="OppSays" prefHeight="53.0" prefWidth="406.0">
+                  <Label fx:id="OppSays" prefHeight="0.0" prefWidth="400.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -77,41 +79,73 @@
                     </children>
                 </HBox>
          </top>
+         <bottom>
+            <Button mnemonicParsing="false" onAction="#NextPhase" text="Next Phase" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </bottom>
         </BorderPane>
       <BorderPane fx:id="Self" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="600.0">
          <top>
-            <HBox fx:id="Phases" alignment="CENTER" prefHeight="68.0" prefWidth="600.0" spacing="60.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="Phases" alignment="CENTER" prefHeight="68.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Draw">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label text="Standby">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label text="Main 1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label text="Battle">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label text="Main 2">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label text="End">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Draw">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="46.0" opacity="0.52" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Standby">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Main 1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Battle">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Main 2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Label text="End">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
                </children>
                <opaqueInsets>
                   <Insets />
@@ -155,23 +189,23 @@
                <children>
                   <HBox fx:id="SelfMonsters" prefHeight="113.0" prefWidth="200.0">
                      <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="210.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="143.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="110.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
                      </children>
                   </HBox>
                   <HBox fx:id="SelfCastables" prefHeight="113.0" prefWidth="200.0">
                      <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="210.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="143.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
+                        <StackPane layoutX="110.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: darkslateblue; -fx-border-width: 5px;" />
                      </children>
                   </HBox>
-                  <TextField fx:id="ChatBox" onAction="#Chat" text="Say Something!">
+                  <TextField fx:id="ChatBox" onAction="#Chat" prefWidth="279.0" text="Say Something!">
                      <font>
                         <Font size="9.0" />
                      </font>

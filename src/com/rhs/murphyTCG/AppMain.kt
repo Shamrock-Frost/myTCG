@@ -3,8 +3,7 @@ package com.rhs.murphyTCG
 import com.rhs.murphyTCG.logic.FindBattleController
 import com.rhs.murphyTCG.logic.LoginController
 import com.rhs.murphyTCG.logic.MenuController
-import com.rhs.murphyTCG.network.Client
-import com.rhs.murphyTCG.network.Server
+import com.rhs.murphyTCG.network.Network
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
@@ -50,10 +49,7 @@ class AppMain : Application() {
 
     internal fun close() {
         Platform.runLater {
-            if (isServer != null) {
-                if (isServer!!) Server.server.close()
-                else Client.client.close()
-            }
+            Network.close()
         }
         //Cleanup code
         window.close()

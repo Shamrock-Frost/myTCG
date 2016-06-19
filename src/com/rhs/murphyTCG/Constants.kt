@@ -32,9 +32,7 @@ internal fun <E> stackOf(vararg es: E): Stack<E> {
 }
 internal operator fun Card.times(i: Int) = (1..i).map { this }
 
-//Global state is bad and I'm a bad programmer
-//Nullable global state makes me feel dead inside
-var isServer: Boolean? = null
+internal var goingFirst: Boolean? = null
 
 fun DoNothing() = Unit
 fun DoNothing(a1: Any) = Unit
@@ -52,6 +50,7 @@ internal val ServerDeck: Stack<Card> = stackOf(*(
 internal val ClientDeck: Stack<Card> = stackOf(*(
         Card.IMP * 3
 ).toTypedArray())
+internal var selectedDeck: Stack<Card> = ServerDeck
 
 internal var name: String = ""
 internal var IP: InetAddress = InetAddress.getLocalHost()

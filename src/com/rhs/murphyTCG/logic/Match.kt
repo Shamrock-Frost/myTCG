@@ -1,12 +1,15 @@
 package com.rhs.murphyTCG.logic
+import com.rhs.murphyTCG.goingFirst
 import java.util.Stack
 
 //Player is the player in the game with hand and deck etc...
 //Profile is what Users are called, which have deck recipes/login info
 internal class Match(deck1: Stack<Card>, hero1: Card, deck2: Stack<Card>, hero2: Card) {
+    internal var phase = 0
+
     internal val player1: Player = Player(deck1, hero1, this)
     internal val player2: Player = Player(deck2, hero2, this)
-    private var currentPlayer = player1
+    private var currentPlayer = if(goingFirst!!) player1 else player2
 
     //Methods called when phases are entered
     fun drawPhase() {
@@ -53,4 +56,7 @@ internal class Match(deck1: Stack<Card>, hero1: Card, deck2: Stack<Card>, hero2:
 
     //Will returns winner
     fun endMatch(): Unit = throw IllegalStateException() //TODO: End the game
+
+    val yourTurn: Boolean
+        get() = currentPlayer == player1
 }

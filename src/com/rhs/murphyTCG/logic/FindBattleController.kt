@@ -3,8 +3,7 @@ package com.rhs.murphyTCG.logic
 import com.rhs.murphyTCG.AppMain
 import com.rhs.murphyTCG.ServerDeck
 import com.rhs.murphyTCG.but
-import com.rhs.murphyTCG.network.Client
-import com.rhs.murphyTCG.network.Server
+import com.rhs.murphyTCG.network.Network
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -13,6 +12,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 
 
@@ -25,22 +25,19 @@ class FindBattleController {
 
     @FXML private lateinit var Waiting: Label
 
-    @FXML private lateinit var HostButton: Button
-    @FXML fun BecomeServer(event: ActionEvent) {
-        val pane = HostButton.parent as VBox
+    private fun init(server: Boolean) {
+        val pane = HostButton.parent as Pane
         pane.children.forEach { it.isVisible = false }
         Waiting.isVisible = true
-        val ip = Server.init(root, controller.but { it.main = main })
+        val ip = Network.init(root, controller.but { it.main = main }, server)
         Waiting.text += "\nIP is: $ip"
     }
 
+    @FXML private lateinit var HostButton: Button
+    @FXML fun BecomeServer(event: ActionEvent) = init(true)
+
     @FXML private lateinit var JoinButton: Button
-    @FXML fun BecomeClient(event: ActionEvent) {
-        val pane = HostButton.parent as VBox
-        pane.children.forEach { it.isVisible = false }
-        Waiting.isVisible = true
-        Client.init(root, controller.but { it.main = main })
-    }
+    @FXML fun BecomeClient(event: ActionEvent) = init(false)
 
     @FXML private lateinit var BackButton: Button
     @FXML fun Back(event: ActionEvent) {

@@ -3,10 +3,8 @@ package com.rhs.murphyTCG.GUI
 import com.rhs.murphyTCG.*
 import com.rhs.murphyTCG.logic.*
 import com.rhs.murphyTCG.logic.Card.Companion.CardType.*
-import com.rhs.murphyTCG.network.Attack
-import com.rhs.murphyTCG.network.Client
-import com.rhs.murphyTCG.network.Server
-import com.rhs.murphyTCG.network.Summon
+import com.rhs.murphyTCG.network.*
+import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -33,8 +31,11 @@ internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
     }
 
     val inHand = EventHandler<MouseEvent> {
+        if(inside.representing.player1.mana < representing.wrapping.cost) return@EventHandler
+        val handIndex = inside.representing.player1.hand.indexOf(this.representing)
+        val isMons = representing.wrapping.cardType === MONSTER
         val slots: HBox =
-                if(representing.wrapping.cardType === MONSTER) inside.controller.SelfMonsters
+                if(isMons) inside.controller.SelfMonsters
                 else inside.controller.SelfCastables
         //See if the player wants to play it as a hidden card
         val hidden = CheckBox("Hide?")
@@ -48,19 +49,33 @@ internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
             //Find an open slot
             .filter { box -> (box as StackPane).children.size == 0 }
             //When that box is clicked
-            .forEach { box -> box.onMouseClicked = EventHandler {
+            .forEachIndexed { i, box -> box.onMouseClicked = EventHandler {
                 //Remove the checkbox seeing if the player wants this hidden
                 this.children -= hidden
                 //Add this to the slot selected
                 (box as StackPane).children += if(hidden.isSelected) HiddenCardNode(this) else this
-                //Play this in the game representation
-                inside.representing.player1.play(this.representing, hidden.isSelected)
                 //Remove this from hand
-                (this.parent as StackPane).children -= this
+                inside.controller.SelfHand.children -= this
                 this.onMouseClicked = null
+                slots.children.forEach { it.onMouseClicked = null }
+                Platform.runLater {
+                    Network.send(Summon().but {
+                        it.handIndex = handIndex
+                        it.boardIndex = i
+                        it.hiding = hidden.isSelected
+                    })
+
+                    val nothing: (Any, Any) -> Unit = ::DoNothing //for disambiguity
+                    if(representing.wrapping.onCast !== nothing) {
+                        val effect = Hypothetical()
+                        effect.action = Card.Companion.Effect.CAST
+                        effect.activatorIndex = if(isMons) i else i + 5
+                        Network.send(effect)
+                    }
+                }
+                inside.controller.SelfMana.text = "Mana: ${inside.representing.player1.mana}"
+                box.children += this
             }}
-        if(isServer!!) Server.server.sendToAllTCP(Summon().but { it.mons = representing })
-        else Client.client.sendTCP(Summon().but { it.mons = representing })
     }
 
     val monsterCombatPhase = EventHandler<MouseEvent> {

@@ -1,13 +1,21 @@
 package com.rhs.murphyTCG.network
 
 import com.esotericsoftware.kryonet.EndPoint
+import com.rhs.murphyTCG.goingFirst
 import com.rhs.murphyTCG.logic.Card
 import com.rhs.murphyTCG.logic.CardWrapper
 import com.rhs.murphyTCG.logic.Card.Companion.Effect
-import java.util.Stack
+import com.rhs.murphyTCG.logic.Match
+import com.rhs.murphyTCG.logic.Player
+import java.util.*
 
 abstract class Packet {
+    val playedBy = goingFirst //True means server, false is client
     var stack = Stack<Packet>()
+        set(value) {
+            value.push(this)
+            stack = value
+        }
 }
 
 internal class Start : Packet() {
@@ -20,29 +28,24 @@ internal class Chat : Packet() {
 }
 
 internal class Attack : Packet() {
-    lateinit var target: CardWrapper
-    lateinit var attacker: CardWrapper
+    var targetIndex: Int? = null
+    var attackerIndex: Int? = null
 }
 
 internal class Draw : Packet()
 
 internal class Hypothetical : Packet() {
     lateinit var action: Effect
-    lateinit var activator: CardWrapper
+    var activatorIndex: Int? = null
     //All targets will be chosen after confirmation
 }
 
 internal class Summon : Packet() {
-    lateinit var mons: CardWrapper
+    var handIndex: Int? = null
+    var boardIndex: Int? = null
+    var hiding: Boolean? = null
 }
 
-internal fun register(ep: EndPoint) {
-    val kryo = ep.kryo
-    kryo.register(Stack::class.java)
-    kryo.register(Start::class.java)
-    kryo.register(Hypothetical::class.java)
-    kryo.register(Summon::class.java)
-    kryo.register(Chat::class.java)
-    kryo.register(Draw::class.java)
-    kryo.register(Attack::class.java)
-}
+internal class NoResponse : Packet()
+
+internal class PhaseChange
