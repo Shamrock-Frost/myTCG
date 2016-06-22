@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox
 import java.net.InetAddress
 import java.util.*
 import com.rhs.murphyTCG.logic.Card.Companion.Effect.*
+import javafx.event.ActionEvent
 
 //To Future Me: Objects are created lazily, don't worry
 object Network {
@@ -82,7 +83,7 @@ object Network {
                         ((
                             if(isMons) controller.OppMonsters
                             else controller.OppCastables
-                        ).children[packet.boardIndex!!] as StackPane).children += hidden.hiding
+                        ).children[packet.boardIndex!!] as StackPane).children += if(!packet.hiding!!) hidden.hiding else hidden
                         val opp = controller.match.representing.player2
                         opp.currMana -= hidden.hiding.representing.wrapping.cost
                         logger("About to play ${hidden.hiding.representing} in game")
@@ -135,7 +136,12 @@ object Network {
                             controller.OppMana.text = "Mana: ${controller.match.representing.player2.currMana}"
                         }
                     }
-                    is EndTurn -> controller.match.representing.endTurn()
+                    is EndTurn -> {
+                        controller.match.representing.endTurn()
+                        Platform.runLater {
+                            controller.NextPhase(null)
+                        }
+                    }
                 }
             }
 

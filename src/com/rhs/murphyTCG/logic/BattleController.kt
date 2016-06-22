@@ -68,7 +68,7 @@ class BattleController {
         OppMana.text += from.representing.player2.currMana
     }
 
-    @FXML fun NextPhase(e: ActionEvent) {
+    @FXML fun NextPhase(e: ActionEvent?) {
         if(!match.representing.yourTurn) return
         incPhase()
         Network.send(PhaseChange())
@@ -94,7 +94,6 @@ class BattleController {
             5 -> {
                 match.representing.endTurn()
                 Network.send(EndTurn())
-                incPhase()
             }
         }
     }
