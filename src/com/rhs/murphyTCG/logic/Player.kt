@@ -1,11 +1,10 @@
 package com.rhs.murphyTCG.logic
 import com.rhs.murphyTCG.*
-import java.util.Stack
-import java.util.ArrayList
 import com.rhs.murphyTCG.logic.Card.Companion.CardType.*
 import com.rhs.murphyTCG.network.Hypothetical
+import java.util.*
 
-internal class Player(deck: Stack<Card>, hero: Card, context: Match) {
+internal class Player(deck: Stack<Card>, hero: Card, val context: Match) {
     val deck = Stack<CardWrapper>()
     val hero = CardWrapper(hero, context)
     val hand: MutableList<CardWrapper> = ArrayList(MAX_HAND_SIZE)
@@ -13,10 +12,11 @@ internal class Player(deck: Stack<Card>, hero: Card, context: Match) {
     val castables = arrayOfNulls<CardWrapper>(NUM_CAST)
     val grave: MutableList<CardWrapper> = ArrayList()
     var health: Int
-        get() = hero.health as Int
+        get() = hero.health!!
         set(value) { hero.health = value }
+    var currMana: Int = hero.mana!!
     var mana: Int
-        get() = hero.mana as Int
+        get() = hero.mana!!
         set(value) {
             hero.mana = value
         }
@@ -29,7 +29,12 @@ internal class Player(deck: Stack<Card>, hero: Card, context: Match) {
     //Doesn't map because state can change on drawing
     fun draw(n: Int, drawnNormally: Boolean) {
         for (i in 1..n) {
-            val card = deck.pop()
+            val card = try {
+                deck.pop()
+            } catch (e: EmptyStackException) {
+                this.context.endMatch(this)
+                throw IllegalStateException("Match did not end")
+            }
             card.wrapping.onDraw(drawnNormally, card.context, card)
             hand += card
         }
@@ -37,14 +42,16 @@ internal class Player(deck: Stack<Card>, hero: Card, context: Match) {
 
     //Moves a card from a player's hand to their board
     fun play(card: CardWrapper, hidden: Boolean, index: Int) {
-        mana -= card.wrapping.cost
-        hand.remove(card)
+        currMana -= card.wrapping.cost
+        logger("Playing $card from ${hand.indexOf(card)}")
+        hand -= card
         card.hidden = hidden
         if (card.wrapping.cardType === MONSTER) monsters[index] = card
         else castables[index] = card
+        logger("Played on board spot #$index")
     }
 
-    fun mill(n: Int) = grave.addAll((1..n).map { deck.pop() })
+    fun mill(n: Int) = grave.addAll((1..Math.min(n, deck.size)).map { deck.pop() })
 
     private companion object {
         //Private to Player

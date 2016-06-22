@@ -10,27 +10,28 @@ import java.net.InetAddress
 import java.util.*
 
 //Constants
-internal val BOUNDS = Screen.getPrimary().visualBounds
-internal val HEIGHT = BOUNDS.height
-internal val WIDTH = BOUNDS.width
+internal val BOUNDS = javafx.stage.Screen.getPrimary().visualBounds
+internal val HEIGHT = com.rhs.murphyTCG.BOUNDS.height
+internal val WIDTH = com.rhs.murphyTCG.BOUNDS.width
 
 //Extension functions
-internal operator fun Parent.plus(node: Node) = Group(this.childrenUnmodifiable + node)
-internal fun Array<CardWrapper?>.setFirstOpen(cw: CardWrapper) {
+internal operator fun javafx.scene.Parent.plus(node: javafx.scene.Node) = javafx.scene.Group(this.childrenUnmodifiable + node)
+internal fun Array<com.rhs.murphyTCG.logic.CardWrapper?>.setFirstOpen(cw: com.rhs.murphyTCG.logic.CardWrapper) {
     val index = indexOfFirst { it == null }
     if(index < this.size) this[index] = cw
 }
-internal operator fun Parent.get(i: Int) = childrenUnmodifiable[i]
+
 internal fun <T> T.but(f: (T) -> Unit): T {
     f(this)
     return this
 }
-internal fun <E> stackOf(vararg es: E): Stack<E> {
-    val result = Stack<E>()
+internal operator fun javafx.scene.Parent.get(i: Int) = childrenUnmodifiable[i]
+internal fun <E> stackOf(vararg es: E): java.util.Stack<E> {
+    val result = java.util.Stack<E>()
     result.addAll(es)
     return result
 }
-internal operator fun Card.times(i: Int) = (1..i).map { this }
+internal operator fun com.rhs.murphyTCG.logic.Card.times(i: Int) = (1..i).map { this }
 
 internal var goingFirst: Boolean? = null
 
@@ -41,17 +42,26 @@ fun DoNothing(a1: Any, a2: Any, a3: Any) = Unit
 fun DoNothing(a1: Any, a2: Any, a3: Any, a4: Any) = Unit
 
 //TODO: Make these decks
-internal val ServerDeck: Stack<Card> = stackOf(*(
-    Card.CHERUB * 3
-    + Card.SERAPH * 4
-    + Card.ARCHANGEL_MIKEY * 1
-    + Card.DIVINE_WRATH * 2
-).toTypedArray())
-internal val ClientDeck: Stack<Card> = stackOf(*(
-        Card.IMP * 3
-).toTypedArray())
-internal var selectedDeck: Stack<Card> = ServerDeck
+internal val ServerDeck: java.util.Stack<com.rhs.murphyTCG.logic.Card> = com.rhs.murphyTCG.stackOf(*(
+        com.rhs.murphyTCG.logic.Card.CHERUB * 3
+                + com.rhs.murphyTCG.logic.Card.SERAPH * 4
+                + com.rhs.murphyTCG.logic.Card.ARCHANGEL_MIKEY * 1
+                + com.rhs.murphyTCG.logic.Card.DIVINE_WRATH * 2
+        ).toTypedArray())
+internal val ClientDeck: java.util.Stack<com.rhs.murphyTCG.logic.Card> = com.rhs.murphyTCG.stackOf(*(
+        com.rhs.murphyTCG.logic.Card.IMP * 3
+        ).toTypedArray())
+internal var selectedDeck: java.util.Stack<com.rhs.murphyTCG.logic.Card> = com.rhs.murphyTCG.ServerDeck
 
 internal var name: String = ""
 internal var IP: InetAddress = InetAddress.getLocalHost()
 internal var PORT = 30725
+
+val console = Scanner(System.`in`)
+val logger by lazy<(String) -> Unit> {
+    val player = if(goingFirst!!) "Summoner" else "Receiver"
+    return@lazy { message ->
+        println("$player: $message")
+        //console.next()
+    }
+}

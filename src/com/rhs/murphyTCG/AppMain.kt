@@ -58,11 +58,9 @@ class AppMain : Application() {
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
-            args.forEachIndexed { i, arg ->
-                if(i == 0) IP = InetAddress.getByName(arg)
-                if(i == 1) PORT = arg.toInt()
-            }
-            Application.launch(AppMain::class.java)
+            if(args.size > 1) com.rhs.murphyTCG.IP = InetAddress.getByName(args[0])
+            if(args.size > 2) com.rhs.murphyTCG.PORT = args[1].toInt()
+            launch(AppMain::class.java)
         }
     }
 }

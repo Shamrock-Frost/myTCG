@@ -14,8 +14,9 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import javafx.scene.shape.Rectangle
+import java.util.*
 
-internal class MatchNode(val representing: Match, val controller: BattleController)
+internal data class MatchNode(val representing: Match, val controller: BattleController)
 
 internal class HiddenCardNode(val hiding: CardNode) : StackPane(Rectangle(40.0, 65.0).but {
     it.style = "-fx-fill: grey;"
@@ -30,9 +31,10 @@ internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
         "-fx-border-width: 2px;"
     }
 
-    val inHand = EventHandler<MouseEvent> {
-        if(inside.representing.player1.mana < representing.wrapping.cost) return@EventHandler
+    val mainPhase = EventHandler<MouseEvent> {
+        if(inside.representing.player1.currMana < representing.wrapping.cost) return@EventHandler
         val handIndex = inside.representing.player1.hand.indexOf(this.representing)
+        logger("HandIndex = $handIndex")
         val isMons = representing.wrapping.cardType === MONSTER
         val slots: HBox =
                 if(isMons) inside.controller.SelfMonsters
@@ -50,31 +52,35 @@ internal class CardNode(val representing: CardWrapper, val inside: MatchNode) :
             .filter { box -> (box as StackPane).children.size == 0 }
             //When that box is clicked
             .forEachIndexed { i, box -> box.onMouseClicked = EventHandler {
+                logger("BoardIndex = $i")
                 //Remove the checkbox seeing if the player wants this hidden
                 this.children -= hidden
                 //Add this to the slot selected
                 (box as StackPane).children += if(hidden.isSelected) HiddenCardNode(this) else this
                 //Remove this from hand
-                inside.controller.SelfHand.children -= this
                 this.onMouseClicked = null
                 slots.children.forEach { it.onMouseClicked = null }
+                logger("NOW MULTITHREADING")
                 Platform.runLater {
                     Network.send(Summon().but {
                         it.handIndex = handIndex
                         it.boardIndex = i
                         it.hiding = hidden.isSelected
                     })
-
+                    inside.controller.SelfHand.children.remove(this)
+                    box.children += this
+                    logger("Visually summoning ${this.representing.toString()}")
                     val nothing: (Any, Any) -> Unit = ::DoNothing //for disambiguity
                     if(representing.wrapping.onCast !== nothing) {
                         val effect = Hypothetical()
                         effect.action = Card.Companion.Effect.CAST
-                        effect.activatorIndex = if(isMons) i else i + 5
+                        effect.activatorIndex = if (isMons) i else i + 5
                         Network.send(effect)
                     }
                 }
-                inside.controller.SelfMana.text = "Mana: ${inside.representing.player1.mana}"
-                box.children += this
+                inside.controller.match.representing.player1.play(representing, hidden.isSelected, i)
+                logger("Played $representing in game")
+                inside.controller.SelfMana.text = "Mana: ${inside.representing.player1.currMana}"
             }}
     }
 

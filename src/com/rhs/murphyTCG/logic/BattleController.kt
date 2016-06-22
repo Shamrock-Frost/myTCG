@@ -5,6 +5,7 @@ import com.rhs.murphyTCG.GUI.CardNode
 import com.rhs.murphyTCG.GUI.HiddenCardNode
 import com.rhs.murphyTCG.GUI.MatchNode
 import com.rhs.murphyTCG.network.*
+import com.rhs.murphyTCG.AppMain
 import javafx.application.Platform
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -54,7 +55,7 @@ class BattleController {
             HiddenCardNode(CardNode(it, from))
         })
         SelfHealth.text += from.representing.player1.health
-        SelfMana.text += from.representing.player1.mana
+        SelfMana.text += from.representing.player1.currMana
     }
 
     internal fun loadEnemy(from: MatchNode) {
@@ -64,7 +65,7 @@ class BattleController {
             HiddenCardNode(CardNode(it, from))
         })
         OppHealth.text += from.representing.player2.health
-        OppMana.text += from.representing.player2.mana
+        OppMana.text += from.representing.player2.currMana
     }
 
     @FXML fun NextPhase(e: ActionEvent) {
@@ -75,12 +76,25 @@ class BattleController {
             0 -> {
                 match.representing.player1.draw(1, true)
                 Platform.runLater {
-                    match.controller.SelfHand.children += (match.controller.SelfDeck.children.removeAt(0) as HiddenCardNode).hiding
+                    SelfHand.children += (SelfDeck.children.removeAt(0) as HiddenCardNode).hiding
                 }
                 Network.send(Draw())
             }
             1 -> {
-
+                match.representing.player1.currMana = ++match.representing.player1.mana
+                Platform.runLater {
+                    SelfMana.text = "Mana: ${match.representing.player1.currMana}"
+                }
+                Network.send(Mana())
+            }
+            2, 4 -> SelfHand.children.forEach {
+                val card = it as CardNode
+                card.onMouseClicked = card.mainPhase
+            }
+            5 -> {
+                match.representing.endTurn()
+                Network.send(EndTurn())
+                incPhase()
             }
         }
     }

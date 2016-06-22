@@ -10,6 +10,8 @@ internal class Match(deck1: Stack<Card>, hero1: Card, deck2: Stack<Card>, hero2:
     internal val player1: Player = Player(deck1, hero1, this)
     internal val player2: Player = Player(deck2, hero2, this)
     private var currentPlayer = if(goingFirst!!) player1 else player2
+    val yourTurn: Boolean
+        get() = currentPlayer == player1
 
     //Methods called when phases are entered
     fun drawPhase() {
@@ -37,11 +39,11 @@ internal class Match(deck1: Stack<Card>, hero1: Card, deck2: Stack<Card>, hero2:
     fun combat(attacker: CardWrapper, defender: CardWrapper) : List<CardWrapper> {
         attacker.wrapping.onAttack(defender, attacker.context, attacker)
         defender.wrapping.onAttacked(attacker, defender.context, defender)
-        attacker.health = attacker.health!!.minus(defender.wrapping.attack as Int)
-        defender.health = defender.health!!.minus(attacker.wrapping.attack as Int)
+        attacker.health = attacker.health!!.minus(defender.wrapping.attack!!)
+        defender.health = defender.health!!.minus(attacker.wrapping.attack!!)
         attacker.wrapping.onDamageChar(defender, attacker.context, attacker)
         defender.wrapping.onDamaged(attacker, attacker.context, defender)
-        val dead = listOf(attacker, defender).filter { (it.wrapping.health as Int) <= 0 }
+        val dead = listOf(attacker, defender).filter { (it.wrapping.health!!) <= 0 }
         if(attacker in dead) kill(attacker, defender)
         if(defender in dead) kill(defender, attacker)
         return dead
@@ -55,8 +57,9 @@ internal class Match(deck1: Stack<Card>, hero1: Card, deck2: Stack<Card>, hero2:
     }
 
     //Will returns winner
-    fun endMatch(): Unit = throw IllegalStateException() //TODO: End the game
+    fun endMatch(loser: Player): Unit = throw IllegalStateException() //TODO: End the game
 
-    val yourTurn: Boolean
-        get() = currentPlayer == player1
+    fun endTurn() {
+        currentPlayer = if(currentPlayer === player1) player2 else player1
+    }
 }

@@ -1,7 +1,6 @@
 package com.rhs.murphyTCG.logic
 
 import com.rhs.murphyTCG.DoNothing
-import com.rhs.murphyTCG.but
 import com.rhs.murphyTCG.plus
 import com.rhs.murphyTCG.setFirstOpen
 import java.util.*

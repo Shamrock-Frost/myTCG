@@ -33,6 +33,10 @@ object Network {
         kryo.register(Card.Companion.Effect::class.java)
         kryo.register(Summon::class.java)
         kryo.register(Card::class.java)
+        kryo.register(Mana::class.java)
+        kryo.register(NoResponse::class.java)
+        kryo.register(Packet::class.java)
+        kryo.register(EndTurn::class.java)
     }
 
     internal lateinit var endPoint: EndPoint
@@ -54,9 +58,9 @@ object Network {
 
         ep.addListener(object : Listener() {
             override fun connected(connection: Connection) =
-                    send(Start().but { start ->
-                        start.name = name
-                        start.deck = selectedDeck.but { shuffle(it) }
+                    send(Start().but {
+                        it.name = name
+                        it.deck = selectedDeck.but { shuffle(it) }
                     })
 
             override fun received(connection: Connection, packet: Any) {
@@ -74,12 +78,14 @@ object Network {
                         //TODO: Allow response
                         val hidden = controller.OppHand.children.removeAt(packet.handIndex!!) as HiddenCardNode
                         val isMons = hidden.hiding.representing.wrapping.cardType === Card.Companion.CardType.MONSTER
+                        logger("Playing ${hidden.hiding.representing} at board index ${packet.boardIndex}, from hand index ${packet.handIndex} visually")
                         ((
                             if(isMons) controller.OppMonsters
                             else controller.OppCastables
                         ).children[packet.boardIndex!!] as StackPane).children += hidden.hiding
                         val opp = controller.match.representing.player2
-                        opp.mana -= hidden.hiding.representing.wrapping.cost
+                        opp.currMana -= hidden.hiding.representing.wrapping.cost
+                        logger("About to play ${hidden.hiding.representing} in game")
                         opp.play(opp.hand[packet.handIndex!!], packet.hiding!!, packet.boardIndex!!)
                         send(NoResponse().but { it.stack = packet.stack })
                     }
@@ -94,8 +100,11 @@ object Network {
                             CAST -> {
                                 //TODO: Allow for response
                                 val opp = controller.match.representing.player2
-                                val card = (if(packet.activatorIndex!! < 5) opp.monsters[packet.activatorIndex!!]
-                                           else opp.castables[packet.activatorIndex!! - 5]) as CardWrapper
+                                val board = if(packet.activatorIndex!! < 5) opp.monsters
+                                            else opp.castables
+                                packet.activatorIndex = packet.activatorIndex!!.mod(5)
+                                while(board[packet.activatorIndex!!] == null);
+                                val card = board[packet.activatorIndex!!] as CardWrapper
                                 card.wrapping.onCast(card.context, card)
                                 send(NoResponse())
                             }
@@ -120,6 +129,13 @@ object Network {
                             }
                         }
                     }
+                    is Mana -> {
+                        controller.match.representing.player2.currMana = ++controller.match.representing.player2.mana
+                        Platform.runLater {
+                            controller.OppMana.text = "Mana: ${controller.match.representing.player2.currMana}"
+                        }
+                    }
+                    is EndTurn -> controller.match.representing.endTurn()
                 }
             }
 
