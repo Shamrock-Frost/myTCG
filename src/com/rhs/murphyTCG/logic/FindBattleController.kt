@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox
 class FindBattleController {
     lateinit var main: AppMain
 
-    private val loader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/BattleScene.fxml"))
+    private val loader = FXMLLoader(this.javaClass.getResource("/com/rhs/murphyTCG/GUI/scenes/BattleScene.fxml"))
     private val root = loader.load<VBox>()
     private val controller = loader.getController<BattleController>()
 
@@ -41,7 +41,7 @@ class FindBattleController {
 
     @FXML private lateinit var BackButton: Button
     @FXML fun Back(event: ActionEvent) {
-        val loader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/MainMenu.fxml"))
+        val loader = FXMLLoader(this.javaClass.getResource("/com/rhs/murphyTCG/GUI/scenes/MainMenu.fxml"))
         val root = loader.load<Parent>()
 
         val controller = loader.getController<MenuController>()

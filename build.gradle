@@ -13,7 +13,16 @@ buildscript {
 apply plugin: 'kotlin'
 apply plugin: 'javafx-gradle-plugin'
 
-defaultTasks 'jfxRun'
+defaultTasks 'jfxJar'
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/"]
+            includes = ["**/*.fxml"]
+        }
+    }
+}
 
 sourceSets.main.kotlin.srcDirs = ['src']
 

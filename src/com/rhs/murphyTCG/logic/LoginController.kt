@@ -22,7 +22,7 @@ class LoginController {
     @FXML fun Login(event: ActionEvent) {
         name = Username.text
 
-        val loader = FXMLLoader(this.javaClass.getResource("../GUI/scenes/MainMenu.fxml"))
+        val loader = FXMLLoader(this.javaClass.getResource("/com/rhs/murphyTCG/GUI/scenes/MainMenu.fxml"))
         val root = loader.load<Parent>()
 
         val controller = loader.getController<MenuController>()

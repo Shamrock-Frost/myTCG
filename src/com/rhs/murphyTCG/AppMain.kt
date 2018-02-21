@@ -2,7 +2,6 @@ package com.rhs.murphyTCG
 
 import com.rhs.murphyTCG.logic.FindBattleController
 import com.rhs.murphyTCG.logic.LoginController
-import com.rhs.murphyTCG.logic.MenuController
 import com.rhs.murphyTCG.network.Network
 import javafx.application.Application
 import javafx.application.Platform
@@ -11,11 +10,10 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import java.net.InetAddress
-import java.util.*
 
 class AppMain : Application() {
     //The Stage needs public/internal access so it can be changed
-    lateinit internal var window: Stage
+    internal lateinit var window: Stage
 
     override fun start(primaryStage: Stage) {
         window = primaryStage
@@ -26,7 +24,7 @@ class AppMain : Application() {
     }
 
     private fun loadLoginScene() {
-        val loginLoader = FXMLLoader(this.javaClass.getResource("GUI/scenes/Login.fxml"))
+        val loginLoader = FXMLLoader(this.javaClass.getResource("/com/rhs/murphyTCG/GUI/scenes/Login.fxml"))
         val root = loginLoader.load<Parent>()
 
         val controller = loginLoader.getController<LoginController>()
@@ -37,10 +35,10 @@ class AppMain : Application() {
     }
 
     private fun loadBattleSelect() {
-        val loginLoader = FXMLLoader(this.javaClass.getResource("GUI/scenes/FindBattle.fxml"))
-        val root = loginLoader.load<Parent>()
+        val battleLoader = FXMLLoader(this.javaClass.getResource("/com/rhs/murphyTCG/GUI/scenes/FindBattle.fxml"))
+        val root = battleLoader.load<Parent>()
 
-        val controller = loginLoader.getController<FindBattleController>()
+        val controller = battleLoader.getController<FindBattleController>()
         controller.main = this
 
         window.scene = Scene(root)
